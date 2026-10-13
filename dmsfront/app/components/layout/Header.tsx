@@ -2,14 +2,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/app/context/LanguageContext';
 import {
   SearchIcon,
   BellIcon,
   MenuIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
-} from '@/components/ui/Icons';
+} from '@/app/components/ui/Icons';
 
 interface HeaderProps {
   onOpenMobile: () => void;

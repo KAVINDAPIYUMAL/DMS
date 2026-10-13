@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
-import { LanguageProvider } from '@/context/LanguageContext';
+import { LanguageProvider } from '@/app/context/LanguageContext';
 
 interface AppShellProps {
   children: React.ReactNode;

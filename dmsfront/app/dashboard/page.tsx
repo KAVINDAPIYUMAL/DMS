@@ -2,14 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { AppShell } from '@/components/layout/AppShell';
-import { useLanguage } from '@/context/LanguageContext';
+import { AppShell } from '@/app/components/layout/AppShell';
+import { useLanguage } from '@/app/context/LanguageContext';
 import {
   SubmitRequestIcon,
   MyRequestsIcon,
   AssignmentsIcon,
   ViewAllIcon,
-} from '@/components/ui/Icons';
+} from '@/app/components/ui/Icons';
 
 export default function DashboardPage() {
   const { getLabel } = useLanguage();

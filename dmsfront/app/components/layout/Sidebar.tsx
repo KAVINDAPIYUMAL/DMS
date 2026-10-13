@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAVIGATION_SECTIONS, NavItem } from './navigationData';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/app/context/LanguageContext';
 import {
   DashboardIcon,
   SubmitRequestIcon,
@@ -15,7 +15,7 @@ import {
   SettingsIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-} from '@/components/ui/Icons';
+} from '@/app/components/ui/Icons';
 
 interface SidebarProps {
   isCollapsed: boolean;
