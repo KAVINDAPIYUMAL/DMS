@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { LanguageProvider } from '@/app/context/LanguageContext';
+import { usePersistedState } from '@/app/context/usePersistedState';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -16,23 +17,12 @@ export function AppShell({
   pageTitle = 'Dashboard',
   breadcrumbs,
 }: AppShellProps) {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('dms_sidebar_collapsed');
-      if (saved !== null) {
-        return saved === 'true';
-      }
-    }
-    return false;
-  });
+  const [collapsedStr, setCollapsedStr] = usePersistedState('dms_sidebar_collapsed', 'false');
+  const isCollapsed = collapsedStr === 'true';
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const toggleCollapse = () => {
-    const nextState = !isCollapsed;
-    setIsCollapsed(nextState);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('dms_sidebar_collapsed', String(nextState));
-    }
+    setCollapsedStr(isCollapsed ? 'false' : 'true');
   };
 
   return (

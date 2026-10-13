@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+import { usePersistedState } from './usePersistedState';
 
 export type Language = 'en' | 'si' | 'ta';
 
@@ -17,21 +18,12 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('dms_language') as Language;
-      if (saved && (saved === 'en' || saved === 'si' || saved === 'ta')) {
-        return saved;
-      }
-    }
-    return 'en';
-  });
+  const [langStr, setLangStr] = usePersistedState('dms_language', 'en');
+  const language: Language =
+    langStr === 'si' || langStr === 'ta' ? (langStr as Language) : 'en';
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('dms_language', lang);
-    }
+    setLangStr(lang);
   };
 
   const getLabel = (en: string, si?: string, ta?: string) => {
