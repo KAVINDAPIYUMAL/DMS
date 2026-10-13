@@ -1,69 +1,118 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState } from 'react';
+import LoginCard from './components/auth/LoginCard';
+import { dictionaries } from './data/mockData';
+import { Language } from './types';
 
 export default function Home() {
+  const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+  const dict = dictionaries[currentLanguage];
+
+  const handleLoginSuccess = () => {
+    // Dashboard navigation goes here
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen w-full bg-[#090d16] flex flex-col">
+      {/* Full-screen login layout */}
+      <div className="flex-1 flex relative overflow-hidden">
+
+        {/* ── Left decorative column ──────────────────────────────── */}
+        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-14 bg-gradient-to-br from-[#0d1526] via-[#090d16] to-[#090d16]">
+          {/* Ambient glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-[#243352]/25 blur-[120px]" />
+            <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-[#C5A059]/10 blur-[100px]" />
+          </div>
+
+          {/* Fine dot grid overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.35]"
+            style={{
+              backgroundImage: 'radial-gradient(rgba(197,160,89,0.18) 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
+            }}
+          />
+
+          {/* Top label */}
+          <div className="relative z-10">
+            <div className="flex items-center gap-2.5">
+              <div className="w-1 h-6 bg-gradient-to-b from-[#C5A059] to-[#8C6A30] rounded-full" />
+              <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#C5A059]">
+                Democratic Socialist Republic of Sri Lanka
+              </span>
+            </div>
+          </div>
+
+          {/* Centre block */}
+          <div className="relative z-10 space-y-6">
+            <div className="space-y-1">
+              <p className="text-xs font-medium tracking-[0.18em] uppercase text-[#C5A059]/70">
+                Official Government Portal
+              </p>
+              <h2 className="text-4xl xl:text-5xl font-extrabold text-white leading-[1.12] tracking-tight">
+                Document<br />
+                <span className="text-[#C5A059]">Tracking &</span><br />
+                Workflow
+              </h2>
+            </div>
+
+            <p className="text-sm text-[#D5C7B0]/55 leading-relaxed max-w-xs">
+              Secure executive portal for departmental document routing,
+              clearance management, and workflow authorisation.
+            </p>
+
+            {/* Decorative divider */}
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-gradient-to-r from-[#C5A059]/40 to-transparent" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]/60" />
+            </div>
+
+            {/* Three feature lines */}
+            <ul className="space-y-3">
+              {[
+                'Multi-stage document approval workflows',
+                'Real-time tracking & audit trail',
+                'Role-based access control',
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-3 text-[13px] text-[#D5C7B0]/60">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]/70 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Bottom spacer */}
+          <div className="relative z-10" />
+        </div>
+
+        {/* Vertical divider line */}
+        <div className="hidden lg:block w-px bg-gradient-to-b from-transparent via-[#C5A059]/25 to-transparent" />
+
+        {/* ── Right login panel ────────────────────────────────────── */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-10 py-12 bg-[#090d16] relative">
+          {/* Subtle right-panel glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#1a2540]/20 blur-[130px]" />
+          </div>
+
+          <div className="relative z-10 w-full max-w-sm">
+            <LoginCard
+              dict={dict}
+              currentLanguage={currentLanguage}
+              onLanguageChange={setCurrentLanguage}
+              onLoginSuccess={handleLoginSuccess}
+            />
+          </div>
+
+          {/* Bottom copyright (mobile visible) */}
+          <p className="relative z-10 mt-10 text-[11px] text-[#D5C7B0]/25 font-mono text-center">
+            &copy; 2026 Department of Government Information, Sri Lanka
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

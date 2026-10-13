@@ -1,5 +1,5 @@
 {
-  "name": "dmsfront",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -23,5 +23,7 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.20.0"
+  "pnpm": {
+    "onlyBuiltDependencies": ["unrs-resolver", "sharp", "@img/sharp-win32-x64", "esbuild"]
+  }
 }
