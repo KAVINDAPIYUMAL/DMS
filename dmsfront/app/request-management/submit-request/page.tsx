@@ -2,8 +2,6 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import AppHeader from "@/components/layout/AppHeader";
-import AppFooter from "@/components/layout/AppFooter";
 import SubmitRequestForm from "@/components/request/SubmitRequestForm";
 
 export const metadata: Metadata = {
@@ -14,10 +12,8 @@ export const metadata: Metadata = {
 
 export default function SubmitRequestPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <AppHeader />
-
-      <main className="flex-1 pt-14">
+    <div className="min-h-screen bg-gray-50">
+      <main>
         <div className="bg-white border-b border-gray-200 shadow-xs">
           <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-4">
             <nav aria-label="Breadcrumb" className="mb-1">
@@ -48,8 +44,6 @@ export default function SubmitRequestPage() {
           <SubmitRequestForm />
         </div>
       </main>
-
-      <AppFooter />
     </div>
   );
 }
