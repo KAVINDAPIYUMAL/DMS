@@ -82,7 +82,7 @@ function FieldWrapper({ label, htmlFor, required, error, children }: FieldWrappe
     <div className="flex flex-col gap-1">
       <label
         htmlFor={htmlFor}
-        className="text-sm font-medium text-gray-700"
+        className="text-sm font-medium text-[var(--foreground)]"
       >
         {label}
         {required && (
@@ -99,19 +99,13 @@ function FieldWrapper({ label, htmlFor, required, error, children }: FieldWrappe
   );
 }
 
-const inputBase =
-  "w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-800 " +
-  "placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a8fa8] " +
-  "focus:border-[#1a8fa8] transition-colors bg-white";
+const inputBase = "w-full rounded-md border border-[var(--surface-border)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--slt-primary)] focus:border-[var(--slt-primary)] transition-colors bg-[var(--surface)]";
 
-const inputError =
-  "border-red-400 focus:ring-red-400 focus:border-red-400";
+const inputError = "border-[var(--foreground-muted)] focus-visible:ring-[var(--foreground-muted)] focus-visible:border-[var(--foreground-muted)]";
 
-const inputReadOnly =
-  "bg-gray-50 text-gray-500 cursor-not-allowed";
+const inputReadOnly = "bg-[var(--surface-muted)] text-[var(--foreground-muted)] cursor-not-allowed";
 
-const inputDisabled =
-  "bg-gray-50 text-gray-400 cursor-not-allowed opacity-70";
+const inputDisabled = "bg-[var(--surface-muted)] text-[var(--foreground-muted)] cursor-not-allowed opacity-70";
 
 export default function SubmitRequestForm() {
   const [form, setForm] = useState<SubmitRequestFormState>(emptyState);
@@ -431,12 +425,12 @@ export default function SubmitRequestForm() {
 
       <section
         aria-labelledby="section-doc-details"
-        className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden mb-6"
+        className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm overflow-hidden mb-6"
       >
-        <div className="bg-[#f0fafc] border-b border-gray-200 px-6 py-3">
+        <div className="bg-[var(--surface-muted)] border-b border-[var(--surface-border)] px-6 py-3">
           <h2
             id="section-doc-details"
-            className="text-sm font-semibold uppercase tracking-wider text-[#1a8fa8]"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--slt-primary)]"
           >
             Document Details
           </h2>
@@ -619,8 +613,8 @@ export default function SubmitRequestForm() {
                   onClick={addCategory}
                   aria-label="Add category"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-md
-                             bg-[#1a8fa8] text-white hover:bg-[#167d94]
-                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1a8fa8]
+                             bg-[var(--slt-primary)] text-[var(--foreground)] hover:bg-[var(--slt-primary)]/90
+                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--slt-primary)]
                              transition-colors shrink-0"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -635,8 +629,8 @@ export default function SubmitRequestForm() {
                 {form.extraCategories.map((cat) => (
                   <span
                     key={cat}
-                    className="inline-flex items-center gap-1 rounded-full bg-[#e8f7fa]
-                               text-[#1a8fa8] text-xs font-medium px-3 py-1 border border-[#b2dfe8]"
+                    className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-muted)]
+                               text-[var(--slt-primary)] text-xs font-medium px-3 py-1 border border-[var(--surface-border)]"
                   >
                     {cat}
                     <button
@@ -661,12 +655,12 @@ export default function SubmitRequestForm() {
 
       <section
         aria-labelledby="section-action"
-        className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden mb-6"
+        className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm overflow-hidden mb-6"
       >
-        <div className="bg-[#f0fafc] border-b border-gray-200 px-6 py-3">
+        <div className="bg-[var(--surface-muted)] border-b border-[var(--surface-border)] px-6 py-3">
           <h2
             id="section-action"
-            className="text-sm font-semibold uppercase tracking-wider text-[#1a8fa8]"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--slt-primary)]"
           >
             Action &amp; Assignment
           </h2>
@@ -804,12 +798,12 @@ export default function SubmitRequestForm() {
 
       <section
         aria-labelledby="section-attachments"
-        className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden mb-24"
+        className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm overflow-hidden mb-24"
       >
-        <div className="bg-[#f0fafc] border-b border-gray-200 px-6 py-3">
+        <div className="bg-[var(--surface-muted)] border-b border-[var(--surface-border)] px-6 py-3">
           <h2
             id="section-attachments"
-            className="text-sm font-semibold uppercase tracking-wider text-[#1a8fa8]"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--slt-primary)]"
           >
             Attachments
           </h2>
@@ -861,8 +855,8 @@ export default function SubmitRequestForm() {
       </section>
 
       <div
-        className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur
-                   border-t border-gray-200 shadow-lg"
+        className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--surface)]/95 backdrop-blur
+                   border-t border-[var(--surface-border)] shadow-lg"
       >
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-end gap-3 py-3">
@@ -870,9 +864,9 @@ export default function SubmitRequestForm() {
               type="button"
               onClick={handleReset}
               disabled={isLoading}
-              className="rounded-md border border-gray-300 bg-white text-gray-700
-                         text-sm font-medium px-5 py-2.5 hover:bg-gray-50
-                         focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400
+              className="rounded-md border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)]
+                         text-sm font-medium px-5 py-2.5 hover:bg-[var(--surface-muted)]
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
                          disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Reset
@@ -882,9 +876,9 @@ export default function SubmitRequestForm() {
               type="submit"
               disabled={isLoading}
               aria-busy={isLoading}
-              className="inline-flex items-center gap-2 rounded-md bg-green-600 text-white
-                         text-sm font-semibold px-6 py-2.5 hover:bg-green-700
-                         focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--slt-primary)] text-white
+                         text-sm font-semibold px-6 py-2.5 hover:bg-[var(--slt-primary-hover)]
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
                          disabled:opacity-60 disabled:cursor-not-allowed transition-colors
                          shadow-sm"
             >

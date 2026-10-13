@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 
 export default function SubmitRequestPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       <main>
-        <div className="bg-white border-b border-gray-200 shadow-xs">
+        <div className="bg-[var(--surface)] border-b border-[var(--surface-border)] shadow-xs">
           <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-4">
             <nav aria-label="Breadcrumb" className="mb-1">
-              <ol className="flex items-center gap-1.5 text-xs text-gray-500">
+              <ol className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
                 <li>
-                  <Link href="/" className="hover:text-[#1a8fa8] transition-colors">
+                  <Link href="/" className="hover:text-[var(--slt-primary)] transition-colors">
                     Home
                   </Link>
                 </li>
@@ -28,13 +28,13 @@ export default function SubmitRequestPage() {
                   <span>Request Management</span>
                 </li>
                 <li aria-hidden="true">/</li>
-                <li aria-current="page" className="text-[#1a8fa8] font-medium">
+                <li aria-current="page" className="text-[var(--slt-primary)] font-medium">
                   Submit new request
                 </li>
               </ol>
             </nav>
 
-            <h1 className="text-xl font-bold text-gray-800 tracking-tight">
+            <h1 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
               Add new request
             </h1>
           </div>

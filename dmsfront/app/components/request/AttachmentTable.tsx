@@ -15,9 +15,9 @@ function formatSize(bytes: number): string {
 
 export default function AttachmentTable({ files, onRemove }: AttachmentTableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-lg border border-[var(--surface-border)]">
       <table className="w-full text-sm text-left" aria-label="Attached files">
-        <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200">
+        <thead className="bg-[var(--surface-muted)] text-[var(--foreground)] font-semibold border-b border-[var(--surface-border)]">
           <tr>
             <th scope="col" className="px-4 py-3 w-16">Count</th>
             <th scope="col" className="px-4 py-3">Title</th>
@@ -30,7 +30,7 @@ export default function AttachmentTable({ files, onRemove }: AttachmentTableProp
             <tr>
               <td
                 colSpan={4}
-                className="px-4 py-8 text-center text-gray-400 italic"
+                className="px-4 py-8 text-center text-[var(--foreground)] italic"
               >
                 No attachments added yet.
               </td>
@@ -39,23 +39,20 @@ export default function AttachmentTable({ files, onRemove }: AttachmentTableProp
             files.map((file, index) => (
               <tr
                 key={file.id}
-                className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
+                className="border-t border-[var(--surface-border)] hover:bg-[var(--surface-muted)] transition-colors"
               >
-                <td className="px-4 py-3 text-gray-500">{index + 1}</td>
+                <td className="px-4 py-3 text-[var(--foreground)]">{index + 1}</td>
 
-                <td className="px-4 py-3 text-gray-800 break-all">{file.name}</td>
+                <td className="px-4 py-3 text-[var(--foreground)] break-all">{file.name}</td>
 
-                <td className="px-4 py-3 text-gray-600">{formatSize(file.size)}</td>
+                <td className="px-4 py-3 text-[var(--foreground)]">{formatSize(file.size)}</td>
 
                 <td className="px-4 py-3 text-center">
                   <button
                     type="button"
                     onClick={() => onRemove(file.id)}
                     aria-label={`Remove ${file.name}`}
-                    className="inline-flex items-center justify-center w-7 h-7 rounded-full
-                               text-red-500 hover:bg-red-50 hover:text-red-700
-                               focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400
-                               transition-colors"
+                    className="inline-flex items-center justify-center w-7 h-7 rounded-full text-[var(--foreground-muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--foreground)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)] transition-colors"
                   >
                     <svg
                       viewBox="0 0 20 20"
