@@ -1,0 +1,305 @@
+export interface RequestActor {
+  name: string;
+  designation: string;
+  code: string;
+}
+
+export interface TimelineStep {
+  stage: string;
+  date: string;
+  actor: string;
+  status: 'completed' | 'current' | 'pending';
+  notes?: string;
+}
+
+export interface RequestAttachment {
+  name: string;
+  size: string;
+  type: string;
+}
+
+export interface MyRequestItem {
+  id: string;
+  reference: string;
+  created: string;
+  title: string;
+  description: string;
+  assignTo: RequestActor;
+  mainCategory: 'Bills' | 'Information' | 'Policy Update' | 'Circulars' | 'Cabinet Papers';
+  assignFrom: RequestActor;
+  status: 'Completed' | 'Pending' | 'Done';
+  statusVariant: 'completed' | 'pending' | 'urgent';
+  turnaroundText: string;
+  turnaroundDays: number;
+  isOverdue: boolean;
+  priority: 'Normal' | 'High' | 'Urgent';
+  progress: number;
+  timeline: TimelineStep[];
+  attachments: RequestAttachment[];
+}
+
+export const MY_REQUESTS_MOCK: MyRequestItem[] = [
+  {
+    id: 'req-1',
+    reference: 'REQ/2026/0001',
+    created: '2026/10/14',
+    title: 'Departmental Annual Operational Budget & Expenditure Review 2026/2027',
+    description: 'Submission of comprehensive fiscal projections and expenditure allocations for digital media and public communications systems.',
+    assignTo: {
+      designation: 'Director General of Government Information',
+      code: '000000-SLT Admin',
+      name: 'SLT Administrator',
+    },
+    mainCategory: 'Bills',
+    assignFrom: {
+      designation: 'Director General of Government Information',
+      code: '000000-SLT Admin',
+      name: 'SLT Administrator',
+    },
+    status: 'Completed',
+    statusVariant: 'completed',
+    turnaroundText: 'completed in 0',
+    turnaroundDays: 0,
+    isOverdue: false,
+    priority: 'Normal',
+    progress: 100,
+    timeline: [
+      { stage: 'Request Initiated', date: '2026/10/14 09:00 AM', actor: 'SLT Admin', status: 'completed', notes: 'Draft bill and ledger attached.' },
+      { stage: 'Financial Clearance', date: '2026/10/14 10:30 AM', actor: 'Director Finance', status: 'completed', notes: 'Budget allocations approved under vote 112.' },
+      { stage: 'Executive Sign-off', date: '2026/10/14 11:45 AM', actor: 'Director General', status: 'completed', notes: 'Final sign-off endorsed.' },
+    ],
+    attachments: [
+      { name: 'Financial_Bill_DGI_2026_01.pdf', size: '2.4 MB', type: 'PDF' },
+      { name: 'Budget_Schedule_Annex_A.xlsx', size: '780 KB', type: 'Excel' },
+    ],
+  },
+  {
+    id: 'req-2',
+    reference: 'REQ/2025/0025',
+    created: '2025/12/22',
+    title: 'ICT Infrastructure Modernization & Dedicated Data Center Link',
+    description: 'Procurement and installation request for high-capacity fiber termination and redundancy backup systems for departmental servers.',
+    assignTo: {
+      designation: 'Information And Communication Technology Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Director General of Government Information',
+      code: '000000-SLT Admin',
+      name: 'SLT Administrator',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '296 days pending',
+    turnaroundDays: 296,
+    isOverdue: true,
+    priority: 'High',
+    progress: 60,
+    timeline: [
+      { stage: 'Request Initiated', date: '2025/12/22 10:15 AM', actor: 'SLT Admin', status: 'completed', notes: 'Specification proposal submitted.' },
+      { stage: 'Technical Assessment', date: '2026/01/15 02:00 PM', actor: 'ICT Division', status: 'completed', notes: 'Site survey completed.' },
+      { stage: 'Security Audit & Compliance', date: '2026/03/10 11:00 AM', actor: 'Dinusha Jayasinghe', status: 'current', notes: 'Awaiting vendor equipment clearance report.' },
+    ],
+    attachments: [
+      { name: 'ICT_Modernization_Spec_v2.pdf', size: '4.1 MB', type: 'PDF' },
+      { name: 'Network_Topology_Schema.png', size: '1.2 MB', type: 'PNG' },
+    ],
+  },
+  {
+    id: 'req-3',
+    reference: 'REQ/2025/0017',
+    created: '2025/08/13',
+    title: 'Gov Portal Security Assessment and Penetration Testing Audit',
+    description: 'Mandatory annual cybersecurity compliance audit for official state press release distribution portal.',
+    assignTo: {
+      designation: 'Information And Communication Technology Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Director General of Government Information',
+      code: '000000-SLT Admin',
+      name: 'SLT Administrator',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '427 days pending',
+    turnaroundDays: 427,
+    isOverdue: true,
+    priority: 'Urgent',
+    progress: 35,
+    timeline: [
+      { stage: 'Request Initiated', date: '2025/08/13 09:20 AM', actor: 'SLT Admin', status: 'completed', notes: 'Audit terms of reference sent.' },
+      { stage: 'Vendor Evaluation', date: '2025/09/20 03:30 PM', actor: 'Tech Evaluation Committee', status: 'completed', notes: 'Vendor selected.' },
+      { stage: 'Remediation Review', date: '2025/11/04 10:00 AM', actor: 'Dinusha Jayasinghe', status: 'current', notes: 'Action items pending implementation.' },
+    ],
+    attachments: [
+      { name: 'Vulnerability_Remediation_List.docx', size: '540 KB', type: 'DOCX' },
+    ],
+  },
+  {
+    id: 'req-4',
+    reference: 'REQ/2025/0016',
+    created: '2025/08/13',
+    title: 'Digital Media Monitoring & Archival System Procurement',
+    description: 'Hardware requisition and software license authorization for real-time broadcast and television news archiving.',
+    assignTo: {
+      designation: 'Information And Communication Technology Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Director General of Government Information',
+      code: '000000-SLT Admin',
+      name: 'SLT Administrator',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '427 days pending',
+    turnaroundDays: 427,
+    isOverdue: true,
+    priority: 'High',
+    progress: 40,
+    timeline: [
+      { stage: 'Request Initiated', date: '2025/08/13 11:00 AM', actor: 'SLT Admin', status: 'completed' },
+      { stage: 'Technical Committee Review', date: '2025/10/02 02:15 PM', actor: 'ICT Officer', status: 'current', notes: 'Clarifications requested from telecom vendor.' },
+    ],
+    attachments: [
+      { name: 'Media_Archive_Storage_Calc.xlsx', size: '1.1 MB', type: 'Excel' },
+    ],
+  },
+  {
+    id: 'req-5',
+    reference: 'REQ/2025/0015',
+    created: '2025/07/14',
+    title: 'Right to Information (RTI) Procedural Manual Revision 2025',
+    description: 'Standardized operational guidelines update for departmental designated officers and public appeals.',
+    assignTo: {
+      designation: 'Director General Of Government Information',
+      code: '197701902412-Sandun DE SILVA',
+      name: 'Sandun De Silva',
+    },
+    mainCategory: 'Policy Update',
+    assignFrom: {
+      designation: 'Librarian',
+      code: '000000-Sandun',
+      name: 'Sandun Perera',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '457 days pending',
+    turnaroundDays: 457,
+    isOverdue: true,
+    priority: 'Urgent',
+    progress: 25,
+    timeline: [
+      { stage: 'Draft Submission', date: '2025/07/14 02:40 PM', actor: 'Librarian', status: 'completed' },
+      { stage: 'Legal Verification', date: '2025/09/10 11:30 AM', actor: 'Legal Affairs', status: 'completed' },
+      { stage: 'Director General Approval', date: '2025/11/01 10:00 AM', actor: 'Sandun DE SILVA', status: 'current', notes: 'Pending cabinet circular cross-reference.' },
+    ],
+    attachments: [
+      { name: 'RTI_Guidelines_Draft_v4.pdf', size: '3.8 MB', type: 'PDF' },
+    ],
+  },
+  {
+    id: 'req-6',
+    reference: 'REQ/2025/0014',
+    created: '2025/06/30',
+    title: 'Departmental Library Historic Document Preservation & Digitization',
+    description: 'Preservation initiative for national news releases and gazette prints dating from 1948 to 1990.',
+    assignTo: {
+      designation: 'Information Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Librarian',
+      code: '000000-Sandun',
+      name: 'Sandun Perera',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '471 days pending',
+    turnaroundDays: 471,
+    isOverdue: true,
+    priority: 'Normal',
+    progress: 20,
+    timeline: [
+      { stage: 'Request Initiated', date: '2025/06/30 08:45 AM', actor: 'Librarian', status: 'completed' },
+      { stage: 'Archival Cataloging', date: '2025/08/18 01:20 PM', actor: 'Dinusha Jayasinghe', status: 'current' },
+    ],
+    attachments: [
+      { name: 'Archival_Batch_Index.pdf', size: '1.9 MB', type: 'PDF' },
+    ],
+  },
+  {
+    id: 'req-7',
+    reference: 'REQ/2025/0013',
+    created: '2025/06/29',
+    title: 'National Information Portal Sinhala / Tamil Content Synchronization',
+    description: 'Bi-lingual terminology consistency and automated translation validation protocol.',
+    assignTo: {
+      designation: 'Information Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Librarian',
+      code: '000000-Sandun',
+      name: 'Sandun Perera',
+    },
+    status: 'Pending',
+    statusVariant: 'urgent',
+    turnaroundText: '472 days pending',
+    turnaroundDays: 472,
+    isOverdue: true,
+    priority: 'High',
+    progress: 15,
+    timeline: [
+      { stage: 'Submission', date: '2025/06/29 11:15 AM', actor: 'Librarian', status: 'completed' },
+      { stage: 'Official Language Review', date: '2025/07/20 02:00 PM', actor: 'Dinusha Jayasinghe', status: 'current' },
+    ],
+    attachments: [
+      { name: 'Glossary_Standards_v1.xlsx', size: '620 KB', type: 'Excel' },
+    ],
+  },
+  {
+    id: 'req-8',
+    reference: 'REQ/2025/0012',
+    created: '2025/06/27',
+    title: 'Information Verification Protocol for Official Press Releases',
+    description: 'Protocol establishment for emergency ministerial media bulletins and fact-checking signoffs.',
+    assignTo: {
+      designation: 'Information Officer',
+      code: '922310758V-Dinusha',
+      name: 'Dinusha Jayasinghe',
+    },
+    mainCategory: 'Information',
+    assignFrom: {
+      designation: 'Librarian',
+      code: '000000-Sandun',
+      name: 'Sandun Perera',
+    },
+    status: 'Done',
+    statusVariant: 'completed',
+    turnaroundText: 'Done completed in 0',
+    turnaroundDays: 0,
+    isOverdue: false,
+    priority: 'Normal',
+    progress: 100,
+    timeline: [
+      { stage: 'Request Initiated', date: '2025/06/27 09:00 AM', actor: 'Librarian', status: 'completed' },
+      { stage: 'Review Committee', date: '2025/06/27 11:30 AM', actor: 'Dinusha Jayasinghe', status: 'completed' },
+      { stage: 'Approved and Published', date: '2025/06/27 03:00 PM', actor: 'DG Secretariat', status: 'completed' },
+    ],
+    attachments: [
+      { name: 'Press_Verification_SOP_Signed.pdf', size: '1.4 MB', type: 'PDF' },
+    ],
+  },
+];
