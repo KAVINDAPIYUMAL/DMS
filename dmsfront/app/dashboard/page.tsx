@@ -51,7 +51,7 @@ export default function DashboardPage() {
       description: 'Review and act on tasks awaiting your official decision',
       descriptionSi: 'ඔබේ නිල තීරණය අපේක්ෂාවෙන් ඇති කාර්යයන් සමාලෝචනය කර පියවර ගන්න',
       descriptionTa: 'உங்கள் அதிகாரப்பூர்வ முடிவுக்காக காத்திருக்கும் பணிகளை மதிப்பாய்வு செய்யவும்',
-      href: '/assignments',
+      href: '/request-management/my-assignments',
       badge: '12 Action Needed',
       badgeColor: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 animate-pulse',
       icon: <AssignmentsIcon className="w-6 h-6 text-rose-600 dark:text-rose-400" />,
@@ -236,22 +236,20 @@ export default function DashboardPage() {
                     <td className="py-3 px-4 text-slate-500">{task.created}</td>
                     <td className="py-3 px-4">
                       <span
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
-                          task.statusVariant === 'urgent'
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${task.statusVariant === 'urgent'
                             ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 border-rose-200 dark:border-rose-800'
                             : task.statusVariant === 'in-progress'
-                            ? 'bg-sky-50 text-sky-700 dark:bg-sky-950/80 dark:text-sky-300 border-sky-200 dark:border-sky-800'
-                            : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                        }`}
+                              ? 'bg-sky-50 text-sky-700 dark:bg-sky-950/80 dark:text-sky-300 border-sky-200 dark:border-sky-800'
+                              : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            task.statusVariant === 'urgent'
+                          className={`w-1.5 h-1.5 rounded-full ${task.statusVariant === 'urgent'
                               ? 'bg-rose-500 animate-pulse'
                               : task.statusVariant === 'in-progress'
-                              ? 'bg-sky-500'
-                              : 'bg-emerald-500'
-                          }`}
+                                ? 'bg-sky-500'
+                                : 'bg-emerald-500'
+                            }`}
                         />
                         {task.status}
                       </span>

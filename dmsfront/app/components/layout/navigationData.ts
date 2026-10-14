@@ -68,7 +68,7 @@ export const NAVIGATION_SECTIONS: NavSection[] = [
         label: 'My Assignments',
         labelSi: 'මගේ පැවරුම්',
         labelTa: 'எனது பணிகள்',
-        href: '/assignments',
+        href: '/request-management/my-assignments',
         iconName: 'assignments',
         badge: 12,
         badgeVariant: 'urgent',
