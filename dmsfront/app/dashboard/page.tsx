@@ -23,7 +23,7 @@ export default function DashboardPage() {
       description: 'Initiate a new document tracking or approval workflow',
       descriptionSi: 'නව ලේඛන ලුහුබැඳීමක් හෝ අනුමැතියක් ආරම්භ කරන්න',
       descriptionTa: 'புதிய ஆவண கண்காணிப்பு அல்லது ஒப்புதல் பணிப்பாய்வு தொடங்கவும்',
-      href: '/requests/new',
+      href: '/request-management/submit-request',
       badge: 'Create',
       badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
       icon: <SubmitRequestIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />,
