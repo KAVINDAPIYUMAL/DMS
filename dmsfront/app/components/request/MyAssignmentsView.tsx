@@ -12,8 +12,10 @@ import {
   DownloadIcon,
   PrinterIcon,
   SearchIcon,
+  ClockIcon,
+  PlusIcon,
 } from '@/app/components/ui/Icons';
-import { ASSIGNMENT_CATEGORIES } from '@/mock/assignmentOptions';
+import { ASSIGNMENT_CATEGORIES, MOCK_ASSIGNMENTS } from '@/mock/assignmentOptions';
 import { getAssignments } from '@/services/assignment.service';
 import type {
   AssignmentItem,
@@ -219,6 +221,38 @@ export function MyAssignmentsView() {
     return `${selectedCategories.length} items selected`;
   }, [selectedCategories]);
 
+  // KPI Statistics across assignments
+  const totalCount = MOCK_ASSIGNMENTS.length;
+  const pendingCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'Pending').length;
+  const inProgressCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'In Progress').length;
+  const completedCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'Completed').length;
+  // Turnaround & Status Info helper matching View All Requests styling
+  const getStatusInfo = (item: AssignmentItem) => {
+    if (item.status === 'Completed') {
+      const days = Math.abs(item.reference.charCodeAt(item.reference.length - 1) % 6);
+      return {
+        text: `completed in ${days}`,
+        progress: 100,
+        isCompleted: true,
+      };
+    }
+    if (item.status === 'In Progress') {
+      const days = (item.reference.charCodeAt(item.reference.length - 1) % 4) + 1;
+      return {
+        text: `${days} days in turnaround`,
+        progress: 60,
+        isCompleted: false,
+      };
+    }
+    // Pending
+    const days = item.reference.charCodeAt(item.reference.length - 1) % 8;
+    return {
+      text: `${days} days pending`,
+      progress: Math.min(100, Math.max(20, days * 12.5)),
+      isCompleted: false,
+    };
+  };
+
   return (
     <div className="space-y-6">
       {/* Toast Notification Banner */}
@@ -249,6 +283,49 @@ export function MyAssignmentsView() {
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             Review, manage, and action departmental workflow tasks assigned to your desk.
           </p>
+        </div>
+      </div>
+
+      {/* KPI Stats Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="text-xs font-medium text-slate-500">Total In Registry</div>
+          <div className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 mt-1">
+            {totalCount}
+          </div>
+          <div className="text-[11px] text-sky-600 dark:text-sky-400 font-semibold mt-1">
+            All divisions combined
+          </div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="text-xs font-medium text-slate-500">Action Pending</div>
+          <div className="text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">
+            {pendingCount}
+          </div>
+          <div className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold mt-1">
+            Awaiting clearance
+          </div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="text-xs font-medium text-slate-500">In Progress</div>
+          <div className="text-2xl font-extrabold text-sky-600 dark:text-sky-400 mt-1">
+            {inProgressCount}
+          </div>
+          <div className="text-[11px] text-sky-600 dark:text-sky-400 font-semibold mt-1">
+            Under active review
+          </div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="text-xs font-medium text-slate-500">Completed & Filed</div>
+          <div className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
+            {completedCount}
+          </div>
+          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+            Officially endorsed
+          </div>
         </div>
       </div>
 
@@ -483,25 +560,25 @@ export function MyAssignmentsView() {
           aria-label="Assignments data table"
         >
           <table className="w-full text-left text-xs whitespace-nowrap min-w-[760px]">
-            {/* Table Header */}
+            {/* Table Header matching View All Requests */}
             <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 font-bold border-b border-slate-200/90 dark:border-slate-800">
               <tr>
-                <th scope="col" className="py-3.5 px-4 w-36">
+                <th scope="col" className="py-3.5 px-4 w-32">
                   Reference
                 </th>
-                <th scope="col" className="py-3.5 px-4 w-32">
+                <th scope="col" className="py-3.5 px-4 w-28">
                   Created
                 </th>
                 <th scope="col" className="py-3.5 px-4 min-w-[220px]">
                   Request From
                 </th>
-                <th scope="col" className="py-3.5 px-4 w-36">
-                  Category
+                <th scope="col" className="py-3.5 px-4 w-32">
+                  Main Category
                 </th>
-                <th scope="col" className="py-3.5 px-4 min-w-[160px]">
-                  Current status
+                <th scope="col" className="py-3.5 px-4 min-w-[180px]">
+                  Current Status
                 </th>
-                <th scope="col" className="py-3.5 px-4 text-center w-56">
+                <th scope="col" className="py-3.5 px-4 text-center w-28">
                   Actions
                 </th>
               </tr>
@@ -559,100 +636,117 @@ export function MyAssignmentsView() {
                 </tr>
               )}
 
-              {/* State 4: Loaded Rows */}
+              {/* State 4: Loaded Rows matching View All Requests styling */}
               {!isLoading &&
-                paginatedData.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
-                  >
-                    {/* Reference Column */}
-                    <td className="py-3.5 px-4">
-                      <span className="inline-block font-mono font-bold px-2 py-0.5 rounded-md text-[11px] border bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700">
-                        {item.reference}
-                      </span>
-                    </td>
+                paginatedData.map((item) => {
+                  const statusInfo = getStatusInfo(item);
 
-                    {/* Created Date */}
-                    <td className="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300 font-medium">
-                      {item.created}
-                    </td>
-
-                    {/* Request From */}
-                    <td className="py-3.5 px-4 text-slate-800 dark:text-slate-200 font-semibold">
-                      {item.requestFrom}
-                    </td>
-
-                    {/* Category */}
-                    <td className="py-3.5 px-4">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
-                        {item.category}
-                      </span>
-                    </td>
-
-                    {/* Current Status Badge */}
-                    <td className="py-3.5 px-4">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${getStatusBadgeClass(
-                          item.status
-                        )}`}
-                      >
+                  return (
+                    <tr
+                      key={item.id}
+                      className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group"
+                    >
+                      {/* Reference Column */}
+                      <td className="py-3.5 px-4">
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${getStatusDotClass(item.status)}`}
-                        />
-                        {item.status}
-                      </span>
-                    </td>
-
-                    {/* Actions Column */}
-                    <td className="py-3.5 px-4 text-center">
-                      <div className="flex items-center justify-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => handleAction('View', item.reference)}
-                          aria-label={`View assignment ${item.reference}`}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/60 transition-colors text-[11px] font-semibold shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+                          className={`inline-block font-mono font-bold px-2 py-0.5 rounded-md text-[11px] border ${
+                            statusInfo.isCompleted
+                              ? 'bg-emerald-100/90 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-300/80 dark:border-emerald-700'
+                              : 'bg-rose-100/80 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border-rose-300/80 dark:border-rose-700'
+                          }`}
                         >
-                          <EyeIcon className="w-3.5 h-3.5 shrink-0" />
-                          <span>View</span>
-                        </button>
+                          {item.reference}
+                        </span>
+                      </td>
 
-                        <button
-                          type="button"
-                          onClick={() => handleAction('Update status', item.reference)}
-                          aria-label={`Update status for assignment ${item.reference}`}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-[11px] font-semibold shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
-                        >
-                          <ArrowPathIcon className="w-3.5 h-3.5 shrink-0" />
-                          <span>Update status</span>
-                        </button>
+                      {/* Created Date */}
+                      <td className="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300 font-medium">
+                        {item.created}
+                      </td>
 
-                        <button
-                          type="button"
-                          onClick={() => handleAction('Forward', item.reference)}
-                          aria-label={`Forward assignment ${item.reference}`}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-800/80 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition-colors text-[11px] font-semibold shadow-2xs focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
-                        >
-                          <svg
-                            className="w-3.5 h-3.5 shrink-0"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            aria-hidden="true"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                      {/* Request From */}
+                      <td className="py-3.5 px-4">
+                        <p className="text-slate-800 dark:text-slate-200 font-semibold line-clamp-1">
+                          {item.requestFrom}
+                        </p>
+                      </td>
+
+                      {/* Main Category */}
+                      <td className="py-3.5 px-4">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                          {item.category}
+                        </span>
+                      </td>
+
+                      {/* Current Status with Turnaround Bar */}
+                      <td className="py-3.5 px-4">
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-[11px] font-bold">
+                            <span
+                              className={
+                                statusInfo.isCompleted
+                                  ? 'text-emerald-700 dark:text-emerald-400'
+                                  : item.status === 'In Progress'
+                                  ? 'text-sky-700 dark:text-sky-400'
+                                  : 'text-rose-700 dark:text-rose-400'
+                              }
+                            >
+                              {statusInfo.text}
+                            </span>
+                          </div>
+                          {/* Turnaround Progress Bar */}
+                          <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-300 ${
+                                statusInfo.isCompleted
+                                  ? 'bg-emerald-500'
+                                  : item.status === 'In Progress'
+                                  ? 'bg-sky-500'
+                                  : 'bg-rose-500'
+                              }`}
+                              style={{ width: `${statusInfo.progress}%` }}
                             />
-                          </svg>
-                          <span>Forward</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 3 Action Buttons matching View All Page */}
+                      <td className="py-3.5 px-4 text-center">
+                        <div className="flex items-center justify-center gap-1.5">
+                          {/* 1. View Details (Eye) */}
+                          <button
+                            type="button"
+                            onClick={() => handleAction('View', item.reference)}
+                            title="View Task Details"
+                            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950 transition-colors shadow-2xs cursor-pointer"
+                          >
+                            <EyeIcon className="w-3.5 h-3.5" />
+                          </button>
+
+                          {/* 2. Timeline / Audit (Clock) */}
+                          <button
+                            type="button"
+                            onClick={() => handleAction('Update status', item.reference)}
+                            title="Audit Trail / Update Status"
+                            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-2xs cursor-pointer"
+                          >
+                            <ClockIcon className="w-3.5 h-3.5" />
+                          </button>
+
+                          {/* 3. Action / Forward (+) */}
+                          <button
+                            type="button"
+                            onClick={() => handleAction('Forward', item.reference)}
+                            title="Forward Task"
+                            className="p-1.5 rounded-lg border border-amber-200 dark:border-amber-800/80 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition-colors shadow-2xs cursor-pointer"
+                          >
+                            <PlusIcon className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
