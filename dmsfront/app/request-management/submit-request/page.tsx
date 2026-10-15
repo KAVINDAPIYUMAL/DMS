@@ -1,5 +1,3 @@
-
-
 import type { Metadata } from "next";
 import SubmitRequestForm from "@/components/request/SubmitRequestForm";
 import SubmitRequestHeader from "@/components/request/SubmitRequestHeader";
@@ -17,7 +15,7 @@ export default function SubmitRequestPage() {
       pageTitle="Submit New Request"
       breadcrumbs={[
         { label: "Home", href: "/dashboard" },
-        { label: "Request Management", href: "/request-management/submit-request" },
+        { label: "Request Management", href: "/requests/all" },
         { label: "Submit New Request" },
       ]}
     >
