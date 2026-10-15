@@ -13,39 +13,32 @@ export const metadata: Metadata = {
 
 export default function SubmitRequestPage() {
   return (
-    <AppShell pageTitle="Executive Dashboard">
-      <div className="min-h-screen bg-[var(--background)]">
-        <main>
-          <div className="bg-[var(--surface)] border-b border-[var(--surface-border)] shadow-xs">
-            <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-4">
-              <nav aria-label="Breadcrumb" className="mb-1">
-                <ol className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
-                  <li>
-                    <Link href="/" className="hover:text-[var(--slt-primary)] transition-colors">
-                      Home
-                    </Link>
-                  </li>
-                  <li aria-hidden="true">/</li>
-                  <li>
-                    <span>Request Management</span>
-                  </li>
-                  <li aria-hidden="true">/</li>
-                  <li aria-current="page" className="text-[var(--slt-primary)] font-medium">
-                    Submit new request
-                  </li>
-                </ol>
-              </nav>
-
-              <h1 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
-                Add new request
-              </h1>
-            </div>
+    <AppShell
+      pageTitle="Submit New Request"
+      breadcrumbs={[
+        { label: "Home", href: "/dashboard" },
+        { label: "Request Management", href: "/requests/all" },
+        { label: "Submit New Request" },
+      ]}
+    >
+      <div className="space-y-6">
+        <div className="bg-[var(--surface)] border border-[var(--surface-border)] rounded-2xl p-5 shadow-xs">
+          <div className="mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+              Department of Government Information
+            </span>
+            <span className="text-slate-300 dark:text-slate-700 mx-2">•</span>
+            <span className="text-xs font-medium text-slate-500">Document Intake</span>
           </div>
+          <h1 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">
+            Add New Request
+          </h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Initiate official document registration, workflow routing, and multi-stage executive approval.
+          </p>
+        </div>
 
-          <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-6">
-            <SubmitRequestForm />
-          </div>
-        </main>
+        <SubmitRequestForm />
       </div>
     </AppShell>
   );

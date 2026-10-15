@@ -318,7 +318,7 @@ export function Header({
 
               <div className="pt-1 border-t border-slate-100 dark:border-slate-800">
                 <Link
-                  href="/login"
+                  href="/"
                   className="flex items-center px-4 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
                 >
                   {getLabel('Sign Out', 'පිටවීම', 'வெளியேறு')}

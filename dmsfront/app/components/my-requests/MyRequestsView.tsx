@@ -225,7 +225,7 @@ export function MyRequestsView() {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/requests/new"
+            href="/request-management/submit-request"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--slt-primary)] hover:bg-[var(--slt-primary-hover)] text-white text-xs font-bold shadow-sm hover:shadow transition-all"
           >
             <PlusIcon className="w-4 h-4" />
