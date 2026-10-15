@@ -5,6 +5,20 @@
 
 export type AssignmentStatus = 'Pending' | 'In Progress' | 'Completed';
 
+export type AssignmentCategory =
+  | 'Information'
+  | 'Tariff Change'
+  | 'Organizational Change'
+  | 'Policy Update'
+  | 'Position Replacement'
+  | 'Government Direction'
+  | 'Vouchers'
+  | 'Bills'
+  | 'Circular'
+  | 'Notice'
+  | 'Request Letters'
+  | 'Answers';
+
 export type AssignmentFilterValue = AssignmentStatus | 'All';
 
 export interface AssignmentFilterOption {

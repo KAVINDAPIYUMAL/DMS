@@ -11,14 +11,21 @@ import { MOCK_ASSIGNMENTS } from '@/mock/assignmentOptions';
 
 // TODO (Phase 2): replace with real API call
 export async function getAssignments(
-  statusFilter?: AssignmentFilterValue
+  filter?: string | string[]
 ): Promise<AssignmentItem[]> {
   // Simulated asynchronous network latency
-  await new Promise<void>((resolve) => setTimeout(resolve, 450));
+  await new Promise<void>((resolve) => setTimeout(resolve, 350));
 
-  if (!statusFilter || statusFilter === 'All') {
+  if (!filter || filter === 'All') {
     return [...MOCK_ASSIGNMENTS];
   }
 
-  return MOCK_ASSIGNMENTS.filter((item) => item.status === statusFilter);
+  if (Array.isArray(filter)) {
+    if (filter.length === 0) return [];
+    return MOCK_ASSIGNMENTS.filter((item) => filter.includes(item.category));
+  }
+
+  return MOCK_ASSIGNMENTS.filter(
+    (item) => item.category === filter || item.status === filter
+  );
 }

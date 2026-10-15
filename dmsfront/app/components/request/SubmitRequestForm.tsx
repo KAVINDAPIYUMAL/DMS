@@ -798,7 +798,7 @@ export default function SubmitRequestForm() {
 
       <section
         aria-labelledby="section-attachments"
-        className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm overflow-hidden mb-24"
+        className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface)] shadow-sm overflow-hidden mb-6"
       >
         <div className="bg-[var(--surface-muted)] border-b border-[var(--surface-border)] px-6 py-3">
           <h2
@@ -854,61 +854,54 @@ export default function SubmitRequestForm() {
         </div>
       </section>
 
-      <div
-        className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--surface)]/95 backdrop-blur
-                   border-t border-[var(--surface-border)] shadow-lg"
-      >
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-end gap-3 py-3">
-            <button
-              type="button"
-              onClick={handleReset}
-              disabled={isLoading}
-              className="rounded-md border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)]
-                         text-sm font-medium px-5 py-2.5 hover:bg-[var(--surface-muted)]
-                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
-                         disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              Reset
-            </button>
+      <div className="flex items-center justify-end gap-3 pt-2 pb-6">
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={isLoading}
+          className="rounded-md border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)]
+                     text-sm font-medium px-5 py-2.5 hover:bg-[var(--surface-muted)]
+                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
+                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+        >
+          Reset
+        </button>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              aria-busy={isLoading}
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--slt-primary)] text-white
-                         text-sm font-semibold px-6 py-2.5 hover:bg-[var(--slt-primary-hover)]
-                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
-                         disabled:opacity-60 disabled:cursor-not-allowed transition-colors
-                         shadow-sm"
-            >
-              {isLoading ? (
-                <>
-                  <svg
-                    className="animate-spin h-4 w-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12" cy="12" r="10"
-                      stroke="currentColor" strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
-                    />
-                  </svg>
-                  Submitting…
-                </>
-              ) : (
-                "Submit Request"
-              )}
-            </button>
-          </div>
-        </div>
+        <button
+          type="submit"
+          disabled={isLoading}
+          aria-busy={isLoading}
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--slt-primary)] text-white
+                     text-sm font-semibold px-6 py-2.5 hover:bg-[var(--slt-primary-hover)]
+                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground-muted)]
+                     disabled:opacity-60 disabled:cursor-not-allowed transition-colors
+                     shadow-sm cursor-pointer"
+        >
+          {isLoading ? (
+            <>
+              <svg
+                className="animate-spin h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12" cy="12" r="10"
+                  stroke="currentColor" strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
+                />
+              </svg>
+              Submitting…
+            </>
+          ) : (
+            "Submit Request"
+          )}
+        </button>
       </div>
     </form>
   );
