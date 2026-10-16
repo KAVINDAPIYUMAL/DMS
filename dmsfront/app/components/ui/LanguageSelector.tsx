@@ -22,7 +22,7 @@ export default function LanguageSelector({
 }: LanguageSelectorProps) {
   if (variant === 'pills') {
     return (
-      <div className={`inline-flex items-center gap-0.5 p-0.5 rounded-lg bg-white/[0.05] border border-white/10 ${className}`}>
+      <div className={`inline-flex items-center gap-0.5 p-0.5 rounded-lg bg-[#0a1628] border border-[#1e3a5f] ${className}`}>
         {languages.map((lang) => {
           const isActive = currentLanguage === lang.code;
           return (
@@ -32,8 +32,8 @@ export default function LanguageSelector({
               onClick={() => onLanguageChange(lang.code)}
               className={`px-2.5 py-1 text-[11px] font-semibold rounded-md transition-all duration-200 cursor-pointer tracking-wide ${
                 isActive
-                  ? 'bg-[#1a2540] text-white border border-[#C5A059]/40 shadow-sm'
-                  : 'text-white/50 hover:text-white'
+                  ? 'bg-[#1e40af] text-white border border-[#3b82f6]/50 shadow-sm shadow-[#2563eb]/20'
+                  : 'text-[#64748b] hover:text-[#93c5fd]'
               }`}
               title={lang.label}
             >
