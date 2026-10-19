@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MyRequestItem } from '@/app/data/myRequestsData';
+import type { MyRequestItem } from '@/types/request';
 import {
   XMarkIcon,
   CheckCircleIcon,

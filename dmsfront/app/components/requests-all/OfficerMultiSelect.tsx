@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { OfficerDirectoryItem } from '@/app/data/allRequestsData';
+import type { OfficerDirectoryItem } from '@/types/request';
 import { SearchIcon } from '@/components/ui/Icons';
 
 interface OfficerMultiSelectProps {
