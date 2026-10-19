@@ -2,14 +2,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   SearchIcon,
   BellIcon,
   MenuIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 interface HeaderProps {
   onOpenMobile: () => void;
@@ -243,7 +243,7 @@ export function Header({
 
               <div className="pt-2 px-4 border-t border-slate-100 dark:border-slate-800 text-center">
                 <Link
-                  href="/assignments"
+                  href="/request-management/my-assignments"
                   className="text-xs font-medium text-sky-600 dark:text-sky-400 hover:underline"
                 >
                   {getLabel('View all 12 assignments →', 'සියලු පැවරුම් 12 බලන්න →', 'அனைத்தையும் காண்க →')}
@@ -300,7 +300,7 @@ export function Header({
                   {getLabel('Edit Profile', 'පැතිකඩ සංස්කරණය', 'சுயவிவரத்தைத் திருத்து')}
                 </Link>
                 <Link
-                  href="/assignments"
+                  href="/request-management/my-assignments"
                   className="flex items-center justify-between px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <span>{getLabel('My Assignments', 'මගේ පැවරුම්', 'எனது பணிகள்')}</span>

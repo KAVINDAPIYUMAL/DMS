@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useLanguage } from '@/app/context/LanguageContext';
-import { MyRequestsIcon } from '@/app/components/ui/Icons';
+import { useLanguage } from '@/context/LanguageContext';
+import { MyRequestsIcon } from '@/components/ui/Icons';
 
 export function SubmitRequestHeader() {
   const { getLabel } = useLanguage();

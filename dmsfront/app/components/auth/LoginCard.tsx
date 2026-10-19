@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Dictionary, Language } from '../../types';
+import { Dictionary, Language } from '@/types';
 import LanguageSelector from '../ui/LanguageSelector';
 
 interface LoginCardProps {

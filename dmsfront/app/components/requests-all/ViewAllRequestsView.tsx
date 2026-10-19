@@ -3,10 +3,10 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ALL_REQUESTS_MOCK, DGI_OFFICERS_DIRECTORY } from '@/app/data/allRequestsData';
-import { MyRequestItem } from '@/app/data/myRequestsData';
-import { useLanguage } from '@/app/context/LanguageContext';
-import { RequestDetailModal } from '@/app/components/my-requests/RequestDetailModal';
-import { RequestActionModal } from '@/app/components/my-requests/RequestActionModal';
+import { MyRequestItem } from '@/types/request';
+import { useLanguage } from '@/context/LanguageContext';
+import { RequestDetailModal } from '@/components/my-requests/RequestDetailModal';
+import { RequestActionModal } from '@/components/my-requests/RequestActionModal';
 import { OfficerMultiSelect } from './OfficerMultiSelect';
 import {
   SearchIcon,
@@ -18,7 +18,7 @@ import {
   ClockIcon,
   CheckCircleIcon,
   ArrowPathIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 export function ViewAllRequestsView() {
   const { getLabel } = useLanguage();

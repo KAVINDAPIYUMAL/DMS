@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
-import { LanguageProvider } from '@/app/context/LanguageContext';
-import { usePersistedState } from '@/app/context/usePersistedState';
+import { LanguageProvider } from '@/context/LanguageContext';
+import { usePersistedState } from '@/context/usePersistedState';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -77,4 +77,3 @@ export function AppShell({
   );
 }
 
-export default AppShell;

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   FilterIcon,
   CheckCircleIcon,
@@ -14,7 +14,7 @@ import {
   SearchIcon,
   ClockIcon,
   PlusIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 import { ASSIGNMENT_CATEGORIES, MOCK_ASSIGNMENTS } from '@/mock/assignmentOptions';
 import { getAssignments } from '@/services/assignment.service';
 import type {

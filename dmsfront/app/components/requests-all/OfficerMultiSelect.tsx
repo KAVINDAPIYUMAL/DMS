@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { OfficerDirectoryItem } from '@/app/data/allRequestsData';
-import { SearchIcon } from '@/app/components/ui/Icons';
+import { SearchIcon } from '@/components/ui/Icons';
 
 interface OfficerMultiSelectProps {
   officers: OfficerDirectoryItem[];

@@ -1,4 +1,4 @@
-import { Dictionary, Language } from '../types';
+import { Dictionary, Language } from '@/types';
 
 export const dictionaries: Record<Language, Dictionary> = {
   en: {

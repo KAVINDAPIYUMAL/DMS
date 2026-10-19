@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { AppShell } from '@/app/components/layout/AppShell';
-import { MyAssignmentsView } from '@/app/components/request/MyAssignmentsView';
+import { AppShell } from '@/components/layout/AppShell';
+import { MyAssignmentsView } from '@/components/request/MyAssignmentsView';
 
 export const metadata: Metadata = {
   title: 'My Assignments | DGI DMS',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 /**
  * Server Component page for /request-management/my-assignments
- * Kept as a Server Component per AGENTS.md guidelines while client interactive logic lives in MyAssignmentsView.
+ * Client interactive logic lives in MyAssignmentsView.
  */
 export default function MyAssignmentsPage() {
   return (

@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { MY_REQUESTS_MOCK, MyRequestItem } from '@/app/data/myRequestsData';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { RequestDetailModal } from './RequestDetailModal';
 import { RequestActionModal } from './RequestActionModal';
 import {
@@ -17,7 +17,7 @@ import {
   ClockIcon,
   CheckCircleIcon,
   ArrowPathIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 export function MyRequestsView() {
   const { getLabel } = useLanguage();

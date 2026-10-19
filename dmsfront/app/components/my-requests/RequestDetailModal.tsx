@@ -8,7 +8,7 @@ import {
   ClockIcon,
   DownloadIcon,
   PrinterIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 interface RequestDetailModalProps {
   request: MyRequestItem | null;

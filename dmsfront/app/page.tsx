@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginCard from './components/auth/LoginCard';
 import { dictionaries } from './data/mockData';
-import { Language } from './types';
+import { Language } from '@/types';
 
 export default function Home() {
   const router = useRouter();

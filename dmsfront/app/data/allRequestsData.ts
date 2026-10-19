@@ -1,11 +1,7 @@
-import { MyRequestItem, RequestActor } from './myRequestsData';
+import type { MyRequestItem, OfficerDirectoryItem } from '@/types/request';
 
-export interface OfficerDirectoryItem {
-  code: string;
-  designation: string;
-  name: string;
-  division?: string;
-}
+// Re-export types for backward compatibility
+export type { OfficerDirectoryItem };
 
 /**
  * Officers list extracted from the official DGI DMS legacy system screenshot:
