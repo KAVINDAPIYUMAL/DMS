@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Cinzel, Playfair_Display } from "next/font/google";
+import { Providers } from "./components/Providers";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -36,8 +37,11 @@ export default function RootLayout({
       className={`${jakarta.variable} ${cinzel.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#FAF6F0] text-[#2C1810] font-sans">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
 }
+

@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { usePersistedState } from '@/context/usePersistedState';
+import { useAuth } from '@/context/AuthContext';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -17,13 +19,39 @@ export function AppShell({
   pageTitle = 'Dashboard',
   breadcrumbs,
 }: AppShellProps) {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const router = useRouter();
   const [collapsedStr, setCollapsedStr] = usePersistedState('dms_sidebar_collapsed', 'false');
   const isCollapsed = collapsedStr === 'true';
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // Auth guard — redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/');
+    }
+  }, [authLoading, isAuthenticated, router]);
+
   const toggleCollapse = () => {
     setCollapsedStr(isCollapsed ? 'false' : 'true');
   };
+
+  // Show loading state during auth hydration
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-3 border-sky-200 border-t-sky-600 rounded-full animate-spin" />
+          <span className="text-xs text-slate-500 font-medium">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render the shell if not authenticated (redirect is in progress)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <LanguageProvider>

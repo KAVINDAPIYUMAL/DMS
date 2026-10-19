@@ -9,9 +9,12 @@ import {
   AssignmentsIcon,
   ViewAllIcon,
 } from '@/components/ui/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 export function DashboardContent() {
   const { getLabel } = useLanguage();
+  const { user } = useAuth();
+  const userName = user?.name || 'User';
 
   const actionCards = [
     {
@@ -120,9 +123,9 @@ export function DashboardContent() {
           </h1>
           <p className="text-sm text-slate-300 leading-relaxed">
             {getLabel(
-              'Welcome, SLT Admin. You have 12 assignments awaiting review and 5 outbound workflows currently active.',
-              'ආයුබෝවන්, SLT Admin. ඔබේ සමාලෝචනය අපේක්ෂාවෙන් පැවරුම් 12ක් සහ ක්‍රියාකාරී ඉල්ලීම් 5ක් ඇත.',
-              'வணக்கம், SLT Admin. உங்களிடம் 12 நிலுவையிலுள்ள பணிகளும் 5 செயல்பாட்டிலுள்ள கோரிக்கைகளும் உள்ளன.'
+              `Welcome, ${userName}. You have 12 assignments awaiting review and 5 outbound workflows currently active.`,
+              `ආයුබෝවන්, ${userName}. ඔබේ සමාලෝචනය අපේක්ෂාවෙන් පැවරුම් 12ක් සහ ක්‍රියාකාරී ඉල්ලීම් 5ක් ඇත.`,
+              `வணக்கம், ${userName}. உங்களிடம் 12 நிலுவையிலுள்ள பணிகளும் 5 செயல்பாட்டிலுள்ள கோரிக்கைகளும் உள்ளன.`
             )}
           </p>
         </div>
