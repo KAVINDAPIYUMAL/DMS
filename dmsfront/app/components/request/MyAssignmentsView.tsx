@@ -2,6 +2,9 @@
 
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useMyAssignments } from '@/hooks/useMyAssignments';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ErrorBanner } from '@/components/common/ErrorBanner';
 import {
   FilterIcon,
   CheckCircleIcon,
@@ -15,8 +18,6 @@ import {
   ClockIcon,
   PlusIcon,
 } from '@/components/ui/Icons';
-import { ASSIGNMENT_CATEGORIES, MOCK_ASSIGNMENTS } from '@/mock/assignmentOptions';
-import { getAssignments } from '@/services/assignment.service';
 import type {
   AssignmentItem,
   AssignmentActionType,
@@ -24,23 +25,34 @@ import type {
 
 export function MyAssignmentsView() {
   const { getLabel } = useLanguage();
+  const {
+    filteredAssignments,
+    paginatedData,
+    isLoading,
+    error,
+    hasSearched,
+    validationMessage,
+    selectedCategories,
+    filteredCategories,
+    dropdownSearch,
+    setDropdownSearch,
+    handleToggleCategory,
+    handleSelectAll,
+    handleDeselectAll,
+    handleViewTasks,
+    handleAction,
+    tableSearch,
+    setTableSearch,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    totalEntries,
+    totalPages,
+  } = useMyAssignments();
 
-  // Category filter state (multi-select searchable dropdown)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  // UI-only state (stays in component)
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [dropdownSearch, setDropdownSearch] = useState<string>('');
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Table search & pagination state
-  const [tableSearch, setTableSearch] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 10;
-
-  // Data & loading states
-  const [assignments, setAssignments] = useState<AssignmentItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasSearched, setHasSearched] = useState<boolean>(false);
-  const [validationMessage, setValidationMessage] = useState<string | null>(null);
 
   // Toast feedback state
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -62,83 +74,6 @@ export function MyAssignmentsView() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Filtered categories based on search input inside the dropdown
-  const filteredCategories = useMemo(() => {
-    if (!dropdownSearch.trim()) return ASSIGNMENT_CATEGORIES;
-    return ASSIGNMENT_CATEGORIES.filter((cat) =>
-      cat.toLowerCase().includes(dropdownSearch.toLowerCase().trim())
-    );
-  }, [dropdownSearch]);
-
-  // Toggle single category selection
-  const handleToggleCategory = (cat: string) => {
-    setValidationMessage(null);
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  };
-
-  // Select all visible categories
-  const handleSelectAll = () => {
-    setValidationMessage(null);
-    const unique = Array.from(new Set([...selectedCategories, ...filteredCategories]));
-    setSelectedCategories(unique);
-  };
-
-  // Deselect all categories
-  const handleDeselectAll = () => {
-    setSelectedCategories([]);
-  };
-
-  // Fetch tasks on clicking "View Tasks"
-  const handleViewTasks = async () => {
-    if (selectedCategories.length === 0) {
-      setValidationMessage('Please select an option before loading tasks.');
-      return;
-    }
-
-    setValidationMessage(null);
-    setIsLoading(true);
-    setHasSearched(true);
-    setCurrentPage(1);
-
-    try {
-      const data = await getAssignments(selectedCategories);
-      setAssignments(data);
-    } catch {
-      showToast('Error loading assignments. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Live filter assignments by table search query
-  const filteredAssignments = useMemo(() => {
-    if (!tableSearch.trim()) return assignments;
-    const q = tableSearch.toLowerCase().trim();
-    return assignments.filter(
-      (item) =>
-        item.reference.toLowerCase().includes(q) ||
-        item.created.toLowerCase().includes(q) ||
-        item.requestFrom.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q) ||
-        item.status.toLowerCase().includes(q)
-    );
-  }, [assignments, tableSearch]);
-
-  // Pagination calculation
-  const totalEntries = filteredAssignments.length;
-  const totalPages = Math.max(1, Math.ceil(totalEntries / pageSize));
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filteredAssignments.slice(start, start + pageSize);
-  }, [filteredAssignments, currentPage, pageSize]);
-
-  // Placeholder action handler
-  const handleAction = (action: AssignmentActionType, reference: string) => {
-    showToast(`${action} action triggered for ${reference} (Phase 2 placeholder)`);
-  };
 
   // Export Handlers
   const handleCopyTable = () => {
@@ -217,15 +152,15 @@ export function MyAssignmentsView() {
   const dropdownLabel = useMemo(() => {
     if (selectedCategories.length === 0) return 'Nothing selected';
     if (selectedCategories.length === 1) return selectedCategories[0];
-    if (selectedCategories.length === ASSIGNMENT_CATEGORIES.length) return 'All Categories';
+    if (selectedCategories.length === filteredCategories.length) return 'All Categories';
     return `${selectedCategories.length} items selected`;
   }, [selectedCategories]);
 
   // KPI Statistics across assignments
-  const totalCount = MOCK_ASSIGNMENTS.length;
-  const pendingCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'Pending').length;
-  const inProgressCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'In Progress').length;
-  const completedCount = MOCK_ASSIGNMENTS.filter((i) => i.status === 'Completed').length;
+  const totalCount = filteredAssignments.length;
+  const pendingCount = filteredAssignments.filter((i) => i.status === 'Pending').length;
+  const inProgressCount = filteredAssignments.filter((i) => i.status === 'In Progress').length;
+  const completedCount = filteredAssignments.filter((i) => i.status === 'Completed').length;
   // Turnaround & Status Info helper matching View All Requests styling
   const getStatusInfo = (item: AssignmentItem) => {
     if (item.status === 'Completed') {
@@ -760,7 +695,7 @@ export function MyAssignmentsView() {
               <span>
                 Showing {(currentPage - 1) * pageSize + 1} to{' '}
                 {Math.min(currentPage * pageSize, totalEntries)} of {totalEntries} entries
-                {tableSearch && ` (filtered from ${assignments.length} total entries)`}
+                {tableSearch && ` (filtered from ${filteredAssignments.length} total entries)`}
               </span>
             )}
           </div>

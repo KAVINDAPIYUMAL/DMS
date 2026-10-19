@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ALL_REQUESTS_MOCK, DGI_OFFICERS_DIRECTORY } from '@/app/data/allRequestsData';
-import { MyRequestItem } from '@/types/request';
+import type { MyRequestItem } from '@/types/request';
+import { useAllRequests } from '@/hooks/useAllRequests';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ErrorBanner } from '@/components/common/ErrorBanner';
+
 import { useLanguage } from '@/context/LanguageContext';
 import { RequestDetailModal } from '@/components/my-requests/RequestDetailModal';
 import { RequestActionModal } from '@/components/my-requests/RequestActionModal';
@@ -22,22 +25,42 @@ import {
 
 export function ViewAllRequestsView() {
   const { getLabel } = useLanguage();
+  const {
+    filteredData,
+    paginatedData,
+    officers,
+    isLoading,
+    error,
+    refetch,
+    dateFrom,
+    setDateFrom,
+    dateTo,
+    setDateTo,
+    selectedCategories,
+    setSelectedCategories,
+    toggleCategory,
+    selectedOfficerCodes,
+    setSelectedOfficerCodes,
+    selectedStatuses,
+    setSelectedStatuses,
+    toggleStatus,
+    searchQuery,
+    setSearchQuery,
+    allCategories,
+    allStatuses,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalEntries,
+    totalPages,
+  } = useAllRequests();
 
-  // ── Filters State (Matching Legacy System) ────────────────────────
-  const [dateFrom, setDateFrom] = useState<string>('2025-01-01');
-  const [dateTo, setDateTo] = useState<string>('2026-10-15');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedOfficerCodes, setSelectedOfficerCodes] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
-  // Dropdown Open States
+  // Dropdown Open States (UI-only)
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
-  // Pagination & Modals State
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  // Modals State (UI-only)
   const [selectedRequest, setSelectedRequest] = useState<MyRequestItem | null>(null);
   const [modalMode, setModalMode] = useState<'overview' | 'timeline' | 'attachments'>('overview');
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -54,100 +77,13 @@ export function ViewAllRequestsView() {
     }, 3500);
   };
 
-  const allCategories = ['Bills', 'Information', 'Policy Update', 'Circulars', 'Cabinet Papers'];
-  const allStatuses = ['Completed', 'Pending', 'Done'];
-
-  // Toggle Category
-  const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  };
-
-  // Toggle Status
-  const toggleStatus = (st: string) => {
-    setSelectedStatuses((prev) =>
-      prev.includes(st) ? prev.filter((s) => s !== st) : [...prev, st]
-    );
-  };
-
-  // ── Filtered Data Calculation ──────────────────────────────────────
-  const filteredData = useMemo(() => {
-    return ALL_REQUESTS_MOCK.filter((item) => {
-      // Date filter
-      const itemDate = item.created.replaceAll('/', '-');
-      if (dateFrom && itemDate < dateFrom) return false;
-      if (dateTo && itemDate > dateTo) return false;
-
-      // Category filter
-      if (
-        selectedCategories.length > 0 &&
-        !selectedCategories.includes(item.mainCategory)
-      ) {
-        return false;
-      }
-
-      // Officer / Assignee filter
-      if (
-        selectedOfficerCodes.length > 0 &&
-        !selectedOfficerCodes.includes(item.assignTo.code)
-      ) {
-        return false;
-      }
-
-      // Status filter
-      if (
-        selectedStatuses.length > 0 &&
-        !selectedStatuses.includes(item.status)
-      ) {
-        return false;
-      }
-
-      // Search Query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesRef = item.reference.toLowerCase().includes(q);
-        const matchesTitle = item.title.toLowerCase().includes(q);
-        const matchesCategory = item.mainCategory.toLowerCase().includes(q);
-        const matchesAssignTo =
-          item.assignTo.designation.toLowerCase().includes(q) ||
-          item.assignTo.code.toLowerCase().includes(q) ||
-          item.assignTo.name.toLowerCase().includes(q);
-        const matchesAssignFrom =
-          item.assignFrom.designation.toLowerCase().includes(q) ||
-          item.assignFrom.code.toLowerCase().includes(q) ||
-          item.assignFrom.name.toLowerCase().includes(q);
-        const matchesStatus = item.turnaroundText.toLowerCase().includes(q);
-
-        return (
-          matchesRef ||
-          matchesTitle ||
-          matchesCategory ||
-          matchesAssignTo ||
-          matchesAssignFrom ||
-          matchesStatus
-        );
-      }
-
-      return true;
-    });
-  }, [dateFrom, dateTo, selectedCategories, selectedOfficerCodes, selectedStatuses, searchQuery]);
-
-  // Pagination calculation
-  const totalEntries = filteredData.length;
-  const totalPages = Math.max(1, Math.ceil(totalEntries / pageSize));
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filteredData.slice(start, start + pageSize);
-  }, [filteredData, currentPage, pageSize]);
-
   // KPI Statistics across all requests
-  const totalCount = ALL_REQUESTS_MOCK.length;
-  const completedCount = ALL_REQUESTS_MOCK.filter(
+  const totalCount = filteredData.length;
+  const completedCount = filteredData.filter(
     (i) => i.status === 'Completed' || i.status === 'Done'
   ).length;
-  const pendingCount = ALL_REQUESTS_MOCK.filter((i) => i.status === 'Pending').length;
-  const overdueCount = ALL_REQUESTS_MOCK.filter((i) => i.isOverdue).length;
+  const pendingCount = filteredData.filter((i) => i.status === 'Pending').length;
+  const overdueCount = filteredData.filter((i) => i.isOverdue).length;
 
   // ── Export Handlers ─────────────────────────────────────────────────
   const handleCopyTable = () => {
@@ -386,7 +322,7 @@ export function ViewAllRequestsView() {
           {/* 4. Assigned Officer Multi-select (From Screenshot) */}
           <div>
             <OfficerMultiSelect
-              officers={DGI_OFFICERS_DIRECTORY}
+              officers={officers}
               selectedCodes={selectedOfficerCodes}
               onChange={setSelectedOfficerCodes}
               label="Assigned Officer"
