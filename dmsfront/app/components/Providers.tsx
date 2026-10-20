@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 /**
  * Providers — Client component that wraps the app with all context providers.
@@ -9,8 +10,10 @@ import { AuthProvider } from '@/context/AuthContext';
  */
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
-      {children}
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

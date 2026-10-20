@@ -4,12 +4,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import {
   SearchIcon,
   BellIcon,
   MenuIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
+  SunIcon,
+  MoonIcon,
 } from '@/components/ui/Icons';
 
 interface HeaderProps {
@@ -29,6 +32,7 @@ export function Header({
 }: HeaderProps) {
   const { language, setLanguage, getLabel } = useLanguage();
   const { user, logout } = useAuth();
+  const { theme, isDark, toggleTheme, mounted } = useTheme();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -183,6 +187,39 @@ export function Header({
           </button>
         </div>
 
+        {/* Theme Change Toggle Button (Light / Dark) */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label={
+            mounted
+              ? isDark
+                ? getLabel('Switch to Light Mode', 'ලාභ තේමාවට මාරු වන්න', 'வெளிச்சப் பயன்முறைக்கு மாறவும்')
+                : getLabel('Switch to Dark Mode', 'අඳුරු තේමාවට මාරු වන්න', 'இருண்ட பயன்முறைக்கு மாறவும்')
+              : 'Toggle theme'
+          }
+          title={
+            mounted
+              ? isDark
+                ? getLabel('Switch to Light Mode', 'ලාභ තේමාවට මාරු වන්න', 'வெளிச்சப் பயන්முறைக்கு மாறவும்')
+                : getLabel('Switch to Dark Mode', 'අඳුරු තේමාවට මාරු වන්න', 'இருண்ட பயන්முறைக்கு மாறவும்')
+              : 'Toggle theme'
+          }
+          className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-hidden"
+        >
+          <div className="w-5 h-5 flex items-center justify-center">
+            {mounted ? (
+              isDark ? (
+                <SunIcon className="w-5 h-5 text-amber-400 hover:text-amber-300 transition-transform duration-300 hover:rotate-45" />
+              ) : (
+                <MoonIcon className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition-transform duration-300 hover:-rotate-12" />
+              )
+            ) : (
+              <span className="w-5 h-5 block" />
+            )}
+          </div>
+        </button>
+
         {/* Notification Bell */}
         <div className="relative" ref={notifRef}>
           <button
@@ -316,6 +353,21 @@ export function Header({
                 >
                   {getLabel('Preferences', 'මනාපයන්', 'விருப்பங்கள்')}
                 </Link>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="w-full flex items-center justify-between px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <span>{getLabel('Theme', 'තේමාව', 'தீம்')}</span>
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 capitalize flex items-center gap-1.5">
+                    {isDark ? (
+                      <SunIcon className="w-3.5 h-3.5 text-amber-400" />
+                    ) : (
+                      <MoonIcon className="w-3.5 h-3.5 text-slate-500" />
+                    )}
+                    {isDark ? getLabel('Dark', 'අඳුරු', 'இருண்ட') : getLabel('Light', 'ලාභ', 'வெளிச்சம்')}
+                  </span>
+                </button>
               </div>
 
               <div className="pt-1 border-t border-slate-100 dark:border-slate-800">
