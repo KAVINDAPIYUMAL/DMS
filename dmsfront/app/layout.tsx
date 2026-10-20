@@ -59,7 +59,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-200">
+      <body className="h-full overflow-hidden flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-200">
         <Providers>
           {children}
         </Providers>

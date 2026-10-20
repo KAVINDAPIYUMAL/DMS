@@ -354,6 +354,7 @@ export default function SubmitRequestForm() {
       setForm(emptyState());
       setErrors({});
       window.scrollTo({ top: 0, behavior: "smooth" });
+      document.getElementById("main-content")?.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setSubmitError("Failed to submit request. Please try again.");
     } finally {

@@ -55,7 +55,7 @@ export function AppShell({
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex">
+      <div className="fixed inset-0 bg-[var(--background)] text-[var(--foreground)] flex overflow-hidden">
         {/* Left-Side Navigation Sidebar */}
         <Sidebar
           isCollapsed={isCollapsed}
@@ -66,8 +66,9 @@ export function AppShell({
 
         {/* Main Content Layout Wrapper */}
         <div
-          className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out ${isCollapsed ? 'lg:pl-20' : 'lg:pl-64'
-            }`}
+          className={`flex-1 flex flex-col min-w-0 h-full overflow-hidden transition-all duration-300 ease-in-out ${
+            isCollapsed ? 'lg:pl-20' : 'lg:pl-64'
+          }`}
         >
           {/* Top Header */}
           <Header
@@ -76,13 +77,15 @@ export function AppShell({
             breadcrumbs={breadcrumbs}
           />
 
-          {/* Main Content Canvas */}
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-            {children}
+          {/* Main Content Canvas - Independently Scrollable */}
+          <main id="main-content" className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 lg:p-8">
+            <div className="max-w-7xl w-full mx-auto">
+              {children}
+            </div>
           </main>
 
-          {/* Modern Enterprise Footer */}
-          <footer className="mt-auto border-t border-[var(--surface-border)] bg-[var(--surface)]/70 backdrop-blur-xs px-6 py-4">
+          {/* Fixed Modern Enterprise Footer (Permanently Pinned at Bottom) */}
+          <footer className="flex-shrink-0 border-t border-[var(--surface-border)] bg-[var(--surface)]/95 backdrop-blur-md px-6 py-3.5 z-20 transition-colors">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-slate-700 dark:text-slate-300">
