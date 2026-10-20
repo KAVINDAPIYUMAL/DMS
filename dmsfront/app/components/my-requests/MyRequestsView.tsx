@@ -129,8 +129,13 @@ export function MyRequestsView() {
     <div className="space-y-6">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-slate-900 text-white border border-slate-700 shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-fade-in">
-          <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
+        <div
+          id="toast-notification"
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-slate-900 text-white border border-slate-700 shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-fade-in"
+        >
+          <CheckCircleIcon className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -341,6 +346,7 @@ export function MyRequestsView() {
           {/* View Tasks Action Button */}
           <div>
             <button
+              id="btn-view-tasks"
               type="button"
               onClick={() => {
                 setIsCategoryDropdownOpen(false);
