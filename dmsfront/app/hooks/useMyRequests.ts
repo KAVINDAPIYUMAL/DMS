@@ -118,6 +118,12 @@ export function useMyRequests() {
     );
   }, []);
 
+  const toggleAllCategories = useCallback(() => {
+    setSelectedCategories((prev) =>
+      prev.length === ALL_CATEGORIES.length ? [] : [...ALL_CATEGORIES]
+    );
+  }, []);
+
   const toggleStatus = useCallback((st: string) => {
     setSelectedStatuses((prev) =>
       prev.includes(st) ? prev.filter((s) => s !== st) : [...prev, st]
@@ -140,6 +146,7 @@ export function useMyRequests() {
     selectedCategories,
     setSelectedCategories,
     toggleCategory,
+    toggleAllCategories,
     selectedStatuses,
     setSelectedStatuses,
     toggleStatus,

@@ -37,6 +37,7 @@ export function MyRequestsView() {
     selectedCategories,
     setSelectedCategories,
     toggleCategory,
+    toggleAllCategories,
     selectedStatuses,
     setSelectedStatuses,
     toggleStatus,
@@ -275,8 +276,10 @@ export function MyRequestsView() {
               className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800 text-slate-900 dark:text-slate-100 flex items-center justify-between text-left"
             >
               <span className="truncate">
-                {selectedCategories.length === 0
+                {selectedCategories.length === allCategories.length
                   ? 'All Categories'
+                  : selectedCategories.length === 0
+                  ? 'Nothing selected'
                   : `${selectedCategories.length} items selected`}
               </span>
               <span className="text-slate-400 text-[10px]">▼</span>
@@ -284,6 +287,26 @@ export function MyRequestsView() {
 
             {isCategoryDropdownOpen && (
               <div className="absolute top-full left-0 mt-1.5 w-56 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-30 space-y-1">
+                {/* Select All */}
+                <label
+                  className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-sky-50 dark:hover:bg-sky-950/40 cursor-pointer text-xs font-bold text-sky-700 dark:text-sky-300"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.length === allCategories.length}
+                    ref={(el) => {
+                      if (el) {
+                        el.indeterminate =
+                          selectedCategories.length > 0 &&
+                          selectedCategories.length < allCategories.length;
+                      }
+                    }}
+                    onChange={toggleAllCategories}
+                    className="rounded border-sky-400 text-sky-600 focus:ring-sky-500"
+                  />
+                  <span>Select All</span>
+                </label>
+                <div className="border-t border-slate-200 dark:border-slate-700 my-1" />
                 {allCategories.map((cat) => (
                   <label
                     key={cat}
