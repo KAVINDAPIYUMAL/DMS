@@ -320,18 +320,19 @@ export function MyAssignmentsView() {
                 </div>
 
                 {/* Select All / Deselect All Bar */}
-                <div className="flex items-center justify-between px-1 py-1 text-[11px] font-semibold border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between px-2 py-1 mb-1.5 border-b border-slate-100 dark:border-slate-800 text-[11px] font-semibold">
                   <button
                     type="button"
                     onClick={handleSelectAll}
-                    className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:underline cursor-pointer"
+                    className="text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
                   >
                     Select All
                   </button>
+                  <span className="text-slate-300 dark:text-slate-700">|</span>
                   <button
                     type="button"
                     onClick={handleDeselectAll}
-                    className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline cursor-pointer"
+                    className="text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
                   >
                     Deselect All
                   </button>

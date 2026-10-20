@@ -59,7 +59,9 @@ export type ReceivedVia =
   | "Email"
   | "Hand Delivery"
   | "Fax"
-  | "Online";
+  | "Online"
+  | "WhatsApp"
+  | "Other";
 
 export type ActionTaken = "Forwarded" | "Acknowledged" | "Filed" | "Pending";
 

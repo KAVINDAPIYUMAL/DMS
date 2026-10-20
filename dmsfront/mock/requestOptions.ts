@@ -6,6 +6,8 @@ export const RECEIVED_VIA_OPTIONS: SelectOption[] = [
   { value: "Hand Delivery", label: "Hand Delivery" },
   { value: "Fax", label: "Fax" },
   { value: "Online", label: "Online" },
+  { value: "WhatsApp", label: "WhatsApp" },
+  { value: "Other", label: "Other" },
 ];
 
 export const RECEIVED_TYPE_BY_VIA: Record<string, SelectOption[]> = {
@@ -32,6 +34,13 @@ export const RECEIVED_TYPE_BY_VIA: Record<string, SelectOption[]> = {
     { value: "Online Form", label: "Online Form" },
     { value: "Portal Submission", label: "Portal Submission" },
     { value: "Web Request", label: "Web Request" },
+  ],
+  WhatsApp: [
+    { value: "WhatsApp Message", label: "WhatsApp Message" },
+    { value: "WhatsApp Document", label: "WhatsApp Document" },
+  ],
+  Other: [
+    { value: "Other", label: "Other" },
   ],
 };
 
@@ -95,6 +104,21 @@ export const RECEIVED_ORG_BY_TYPE: Record<string, SelectOption[]> = {
   "Web Request": [
     { value: "DMS Public Site", label: "DMS Public Site" },
     { value: "External Integration", label: "External Integration" },
+  ],
+  "WhatsApp Message": [
+    { value: "Public Citizen", label: "Public Citizen" },
+    { value: "Customer Relations", label: "Customer Relations" },
+    { value: "Media Division", label: "Media Division" },
+  ],
+  "WhatsApp Document": [
+    { value: "Public Applicant", label: "Public Applicant" },
+    { value: "Corporate Entity", label: "Corporate Entity" },
+    { value: "Media Division", label: "Media Division" },
+  ],
+  Other: [
+    { value: "General Public", label: "General Public" },
+    { value: "External Organization", label: "External Organization" },
+    { value: "Other", label: "Other" },
   ],
 };
 
