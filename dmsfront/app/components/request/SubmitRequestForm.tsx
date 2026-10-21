@@ -18,6 +18,7 @@ import {
 } from "@/mock/requestOptions";
 import { submitRequest } from "@/services/request.service";
 import AttachmentTable from "./AttachmentTable";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 
 
@@ -443,19 +444,16 @@ export default function SubmitRequestForm() {
             required
             error={errors.receivedVia}
           >
-            <select
+            <SearchableSelect
               id="receivedVia"
+              name="receivedVia"
               value={form.receivedVia}
-              onChange={(e) => handleReceivedViaChange(e.target.value)}
+              options={RECEIVED_VIA_OPTIONS}
+              onChange={handleReceivedViaChange}
               onBlur={() => handleBlur("receivedVia")}
-              aria-required="true"
-              aria-invalid={!!errors.receivedVia}
-              className={`${inputBase} ${errors.receivedVia ? inputError : ""}`}
-            >
-              {RECEIVED_VIA_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              error={!!errors.receivedVia}
+              required
+            />
           </FieldWrapper>
 
           <FieldWrapper
@@ -502,24 +500,18 @@ export default function SubmitRequestForm() {
             required
             error={errors.receivedType}
           >
-            <select
+            <SearchableSelect
               id="receivedType"
+              name="receivedType"
               value={form.receivedType}
-              onChange={(e) => handleReceivedTypeChange(e.target.value)}
+              options={receivedTypeOptions}
+              onChange={handleReceivedTypeChange}
               onBlur={() => handleBlur("receivedType")}
               disabled={!form.receivedVia}
-              aria-required="true"
-              aria-invalid={!!errors.receivedType}
-              aria-disabled={!form.receivedVia}
-              className={`${inputBase}
-                ${errors.receivedType ? inputError : ""}
-                ${!form.receivedVia ? inputDisabled : ""}`}
-            >
-              <option value="">Nothing selected</option>
-              {receivedTypeOptions.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              placeholder="Nothing selected"
+              error={!!errors.receivedType}
+              required
+            />
           </FieldWrapper>
 
           <FieldWrapper
@@ -528,24 +520,18 @@ export default function SubmitRequestForm() {
             required
             error={errors.receivedOrganization}
           >
-            <select
+            <SearchableSelect
               id="receivedOrganization"
+              name="receivedOrganization"
               value={form.receivedOrganization}
-              onChange={(e) => setField("receivedOrganization", e.target.value)}
+              options={receivedOrgOptions}
+              onChange={(val) => setField("receivedOrganization", val)}
               onBlur={() => handleBlur("receivedOrganization")}
               disabled={!form.receivedType}
-              aria-required="true"
-              aria-invalid={!!errors.receivedOrganization}
-              aria-disabled={!form.receivedType}
-              className={`${inputBase}
-                ${errors.receivedOrganization ? inputError : ""}
-                ${!form.receivedType ? inputDisabled : ""}`}
-            >
-              <option value="">Nothing selected</option>
-              {receivedOrgOptions.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              placeholder="Nothing selected"
+              error={!!errors.receivedOrganization}
+              required
+            />
           </FieldWrapper>
 
           <FieldWrapper label="Received Date" htmlFor="receivedDate">
@@ -578,19 +564,19 @@ export default function SubmitRequestForm() {
               error={errors.mainCategory}
             >
               <div className="flex items-center gap-2 flex-wrap">
-                <select
-                  id="mainCategory"
-                  value={form.mainCategory}
-                  onChange={(e) => setField("mainCategory", e.target.value)}
-                  onBlur={() => handleBlur("mainCategory")}
-                  aria-required="true"
-                  aria-invalid={!!errors.mainCategory}
-                  className={`${inputBase} max-w-xs ${errors.mainCategory ? inputError : ""}`}
-                >
-                  {MAIN_CATEGORY_OPTIONS.map((o) => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
-                  ))}
-                </select>
+                <div className="w-full max-w-xs">
+                  <SearchableSelect
+                    id="mainCategory"
+                    name="mainCategory"
+                    value={form.mainCategory}
+                    options={MAIN_CATEGORY_OPTIONS}
+                    onChange={(val) => setField("mainCategory", val)}
+                    onBlur={() => handleBlur("mainCategory")}
+                    placeholder="Select category"
+                    error={!!errors.mainCategory}
+                    required
+                  />
+                </div>
 
                 <input
                   type="text"
@@ -673,19 +659,17 @@ export default function SubmitRequestForm() {
             required
             error={errors.actionTaken}
           >
-            <select
+            <SearchableSelect
               id="actionTaken"
+              name="actionTaken"
               value={form.actionTaken}
-              onChange={(e) => handleActionTakenChange(e.target.value)}
+              options={ACTION_TAKEN_OPTIONS}
+              onChange={handleActionTakenChange}
               onBlur={() => handleBlur("actionTaken")}
-              aria-required="true"
-              aria-invalid={!!errors.actionTaken}
-              className={`${inputBase} ${errors.actionTaken ? inputError : ""}`}
-            >
-              {ACTION_TAKEN_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              placeholder="Select action"
+              error={!!errors.actionTaken}
+              required
+            />
           </FieldWrapper>
 
           <FieldWrapper
@@ -694,24 +678,18 @@ export default function SubmitRequestForm() {
             required={isForwarded}
             error={errors.designationType}
           >
-            <select
+            <SearchableSelect
               id="designationType"
+              name="designationType"
               value={form.designationType}
-              onChange={(e) => handleDesignationTypeChange(e.target.value)}
+              options={DESIGNATION_TYPE_OPTIONS}
+              onChange={handleDesignationTypeChange}
               onBlur={() => handleBlur("designationType")}
               disabled={!isForwarded}
-              aria-required={isForwarded}
-              aria-invalid={!!errors.designationType}
-              aria-disabled={!isForwarded}
-              className={`${inputBase}
-                ${errors.designationType ? inputError : ""}
-                ${!isForwarded ? inputDisabled : ""}`}
-            >
-              <option value="">Nothing Selected</option>
-              {DESIGNATION_TYPE_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              placeholder="Nothing Selected"
+              error={!!errors.designationType}
+              required={isForwarded}
+            />
           </FieldWrapper>
 
           <FieldWrapper
@@ -720,24 +698,18 @@ export default function SubmitRequestForm() {
             required={isForwarded}
             error={errors.designation}
           >
-            <select
+            <SearchableSelect
               id="designation"
+              name="designation"
               value={form.designation}
-              onChange={(e) => handleDesignationChange(e.target.value)}
+              options={designationOptions}
+              onChange={handleDesignationChange}
               onBlur={() => handleBlur("designation")}
-              disabled={!form.designationType}
-              aria-required={isForwarded}
-              aria-invalid={!!errors.designation}
-              aria-disabled={!form.designationType}
-              className={`${inputBase}
-                ${errors.designation ? inputError : ""}
-                ${!form.designationType ? inputDisabled : ""}`}
-            >
-              <option value="">Nothing Selected</option>
-              {designationOptions.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              disabled={!form.designationType || !isForwarded}
+              placeholder="Nothing Selected"
+              error={!!errors.designation}
+              required={isForwarded}
+            />
           </FieldWrapper>
 
           <FieldWrapper
@@ -746,24 +718,18 @@ export default function SubmitRequestForm() {
             required={isForwarded}
             error={errors.assignTo}
           >
-            <select
+            <SearchableSelect
               id="assignTo"
+              name="assignTo"
               value={form.assignTo}
-              onChange={(e) => setField("assignTo", e.target.value)}
+              options={assigneeOptions}
+              onChange={(val) => setField("assignTo", val)}
               onBlur={() => handleBlur("assignTo")}
-              disabled={!form.designation}
-              aria-required={isForwarded}
-              aria-invalid={!!errors.assignTo}
-              aria-disabled={!form.designation}
-              className={`${inputBase}
-                ${errors.assignTo ? inputError : ""}
-                ${!form.designation ? inputDisabled : ""}`}
-            >
-              <option value="">Nothing Selected</option>
-              {assigneeOptions.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+              disabled={!form.designation || !isForwarded}
+              placeholder="Nothing Selected"
+              error={!!errors.assignTo}
+              required={isForwarded}
+            />
           </FieldWrapper>
 
           <div className="sm:col-span-2">

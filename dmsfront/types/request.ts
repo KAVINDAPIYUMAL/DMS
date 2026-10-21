@@ -56,6 +56,7 @@ export interface OfficerDirectoryItem {
 
 export type ReceivedVia =
   | "Registered Post"
+  | "Normal Post"
   | "Email"
   | "Hand Delivery"
   | "Fax"
