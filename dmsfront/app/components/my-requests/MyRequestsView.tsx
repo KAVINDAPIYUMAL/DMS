@@ -348,21 +348,41 @@ export function MyRequestsView() {
             </button>
 
             {isCategoryDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-56 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-30 space-y-1">
-                {allCategories.map((cat) => (
-                  <label
-                    key={cat}
-                    className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-xs"
+              <div className="absolute top-full left-0 mt-1.5 w-56 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-30">
+                {/* Select All / Clear All actions */}
+                <div className="flex items-center justify-between px-2.5 py-1.5 mb-1 border-b border-slate-100 dark:border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategories([...allCategories])}
+                    className="text-[11px] font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
                   >
-                    <input
-                      type="checkbox"
-                      checked={selectedCategories.includes(cat)}
-                      onChange={() => toggleCategory(cat)}
-                      className="rounded border-slate-300 text-sky-600 focus:ring-sky-500"
-                    />
-                    <span className="text-slate-700 dark:text-slate-300">{cat}</span>
-                  </label>
-                ))}
+                    Select All
+                  </button>
+                  <span className="text-slate-300 dark:text-slate-700">|</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategories([])}
+                    className="text-[11px] font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 transition-colors"
+                  >
+                    Clear All
+                  </button>
+                </div>
+                <div className="space-y-1">
+                  {allCategories.map((cat) => (
+                    <label
+                      key={cat}
+                      className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-xs"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(cat)}
+                        onChange={() => toggleCategory(cat)}
+                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                      />
+                      <span className="text-slate-700 dark:text-slate-300">{cat}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -389,21 +409,41 @@ export function MyRequestsView() {
             </button>
 
             {isStatusDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-52 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-30 space-y-1">
-                {allStatuses.map((st) => (
-                  <label
-                    key={st}
-                    className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-xs"
+              <div className="absolute top-full left-0 mt-1.5 w-52 p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-30">
+                {/* Select All / Clear All actions */}
+                <div className="flex items-center justify-between px-2.5 py-1.5 mb-1 border-b border-slate-100 dark:border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedStatuses([...allStatuses])}
+                    className="text-[11px] font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
                   >
-                    <input
-                      type="checkbox"
-                      checked={selectedStatuses.includes(st)}
-                      onChange={() => toggleStatus(st)}
-                      className="rounded border-slate-300 text-sky-600 focus:ring-sky-500"
-                    />
-                    <span className="text-slate-700 dark:text-slate-300">{st}</span>
-                  </label>
-                ))}
+                    Select All
+                  </button>
+                  <span className="text-slate-300 dark:text-slate-700">|</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedStatuses([])}
+                    className="text-[11px] font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 transition-colors"
+                  >
+                    Clear All
+                  </button>
+                </div>
+                <div className="space-y-1">
+                  {allStatuses.map((st) => (
+                    <label
+                      key={st}
+                      className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-xs"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedStatuses.includes(st)}
+                        onChange={() => toggleStatus(st)}
+                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                      />
+                      <span className="text-slate-700 dark:text-slate-300">{st}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             )}
           </div>
