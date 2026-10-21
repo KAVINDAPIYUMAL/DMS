@@ -5,13 +5,13 @@ export interface NavItem {
   labelTa: string; // Tamil
   href: string;
   iconName:
-    | 'dashboard'
-    | 'submit'
-    | 'my-requests'
-    | 'assignments'
-    | 'view-all'
-    | 'reports'
-    | 'settings';
+  | 'dashboard'
+  | 'submit'
+  | 'my-requests'
+  | 'assignments'
+  | 'view-all'
+  | 'reports'
+  | 'settings';
   badge?: number;
   badgeVariant?: 'urgent' | 'primary' | 'neutral';
   section?: string;
@@ -50,7 +50,7 @@ export const NAVIGATION_SECTIONS: NavSection[] = [
         label: 'Submit New Request',
         labelSi: 'නව ඉල්ලීමක් ඉදිරිපත් කිරීම',
         labelTa: 'புதிய கோரிக்கை சமர்ப்பிக்கவும்',
-        href: '/requests/new',
+        href: '/request-management/submit-request',
         iconName: 'submit',
       },
       {
@@ -68,7 +68,7 @@ export const NAVIGATION_SECTIONS: NavSection[] = [
         label: 'My Assignments',
         labelSi: 'මගේ පැවරුම්',
         labelTa: 'எனது பணிகள்',
-        href: '/assignments',
+        href: '/request-management/my-assignments',
         iconName: 'assignments',
         badge: 12,
         badgeVariant: 'urgent',

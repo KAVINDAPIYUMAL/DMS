@@ -1,42 +1,12 @@
-export interface RequestActor {
-  name: string;
-  designation: string;
-  code: string;
-}
+import type {
+  RequestActor,
+  TimelineStep,
+  RequestAttachment,
+  MyRequestItem,
+} from '@/types/request';
 
-export interface TimelineStep {
-  stage: string;
-  date: string;
-  actor: string;
-  status: 'completed' | 'current' | 'pending';
-  notes?: string;
-}
-
-export interface RequestAttachment {
-  name: string;
-  size: string;
-  type: string;
-}
-
-export interface MyRequestItem {
-  id: string;
-  reference: string;
-  created: string;
-  title: string;
-  description: string;
-  assignTo: RequestActor;
-  mainCategory: 'Bills' | 'Information' | 'Policy Update' | 'Circulars' | 'Cabinet Papers';
-  assignFrom: RequestActor;
-  status: 'Completed' | 'Pending' | 'Done';
-  statusVariant: 'completed' | 'pending' | 'urgent';
-  turnaroundText: string;
-  turnaroundDays: number;
-  isOverdue: boolean;
-  priority: 'Normal' | 'High' | 'Urgent';
-  progress: number;
-  timeline: TimelineStep[];
-  attachments: RequestAttachment[];
-}
+// Re-export types for backward compatibility
+export type { RequestActor, TimelineStep, RequestAttachment, MyRequestItem };
 
 export const MY_REQUESTS_MOCK: MyRequestItem[] = [
   {

@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Dictionary, Language } from '../../types';
+import { Dictionary, Language } from '@/types';
 import LanguageSelector from '../ui/LanguageSelector';
 
 interface LoginCardProps {
   dict: Dictionary;
   currentLanguage: Language;
   onLanguageChange: (lang: Language) => void;
-  onLoginSuccess: () => void;
+  onLoginSuccess: (username: string, password: string) => Promise<void>;
 }
 
 const labels: Record<Language, { username: string; password: string; login: string; dept: string; system: string }> = {
@@ -48,7 +48,7 @@ export default function LoginCard({
 
   const t = labels[currentLanguage];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim() || !password.trim()) {
       setError(currentLanguage === 'si'
@@ -60,10 +60,13 @@ export default function LoginCard({
     }
     setError('');
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      await onLoginSuccess(username, password);
+    } catch {
+      setError('Login failed. Please check your credentials.');
+    } finally {
       setIsLoading(false);
-      onLoginSuccess();
-    }, 900);
+    }
   };
 
   return (

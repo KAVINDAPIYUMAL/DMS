@@ -1,9 +1,17 @@
-'use client';
+import type { Metadata } from 'next';
+import { AppShell } from '@/components/layout/AppShell';
+import { MyRequestsView } from '@/components/my-requests/MyRequestsView';
 
-import React from 'react';
-import { AppShell } from '@/app/components/layout/AppShell';
-import { MyRequestsView } from '@/app/components/my-requests/MyRequestsView';
+export const metadata: Metadata = {
+  title: 'My Requests | DGI DMS',
+  description:
+    'Document Tracking & Workflow System — Department of Government Information, Sri Lanka. Track the status and approvals of your submitted requests.',
+};
 
+/**
+ * Server Component page for /requests/mine
+ * Client interactive logic lives in MyRequestsView.
+ */
 export default function MyRequestsPage() {
   return (
     <AppShell

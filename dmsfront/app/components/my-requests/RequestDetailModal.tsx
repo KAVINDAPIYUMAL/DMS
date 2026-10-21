@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { MyRequestItem } from '@/app/data/myRequestsData';
+import type { MyRequestItem } from '@/types/request';
 import {
   XMarkIcon,
   CheckCircleIcon,
   ClockIcon,
   DownloadIcon,
   PrinterIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 interface RequestDetailModalProps {
   request: MyRequestItem | null;

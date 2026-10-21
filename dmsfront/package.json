@@ -23,5 +23,8 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.20.0"
+  "packageManager": "pnpm@11.20.0",
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
+  }
 }

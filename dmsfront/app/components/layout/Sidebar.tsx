@@ -4,7 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAVIGATION_SECTIONS, NavItem } from './navigationData';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import {
   DashboardIcon,
   SubmitRequestIcon,
@@ -15,7 +16,7 @@ import {
   SettingsIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -32,6 +33,7 @@ export function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const { getLabel } = useLanguage();
+  const { user } = useAuth();
 
   const renderIcon = (iconName: NavItem['iconName']) => {
     const props = { className: 'w-5 h-5 flex-shrink-0 transition-transform duration-200' };
@@ -216,13 +218,13 @@ export function Sidebar({
           >
             {/* SLT Avatar */}
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-600 to-cyan-500 flex items-center justify-center font-bold text-white text-xs shadow-xs flex-shrink-0">
-              SA
+              {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'}
             </div>
 
             {!isCollapsed && (
               <div className="flex flex-col min-w-0 flex-1">
                 <span className="text-xs font-semibold text-slate-100 truncate">
-                  SLT Admin
+                  {user?.name || 'User'}
                 </span>
                 <span className="text-[10px] text-emerald-400 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

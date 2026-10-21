@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MyRequestItem } from '@/app/data/myRequestsData';
-import { XMarkIcon, PlusIcon, CheckIcon } from '@/app/components/ui/Icons';
+import type { MyRequestItem } from '@/types/request';
+import { XMarkIcon, PlusIcon, CheckIcon } from '@/components/ui/Icons';
 
 interface RequestActionModalProps {
   request: MyRequestItem | null;

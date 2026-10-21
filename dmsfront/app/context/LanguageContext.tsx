@@ -1,9 +1,8 @@
 'use client';
 
 import React, { createContext, useContext } from 'react';
+import type { Language } from '@/types';
 import { usePersistedState } from './usePersistedState';
-
-export type Language = 'en' | 'si' | 'ta';
 
 interface LanguageContextType {
   language: Language;

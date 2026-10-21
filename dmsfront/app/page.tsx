@@ -4,14 +4,17 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginCard from './components/auth/LoginCard';
 import { dictionaries } from './data/mockData';
-import { Language } from './types';
+import { Language } from '@/types';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
   const router = useRouter();
+  const { login } = useAuth();
   const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
   const dict = dictionaries[currentLanguage];
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = async (username: string, password: string) => {
+    await login(username, password);
     router.push('/dashboard');
   };
 

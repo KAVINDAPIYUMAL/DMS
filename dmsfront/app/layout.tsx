@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Cinzel, Playfair_Display } from "next/font/google";
+import { Providers } from "./components/Providers";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -33,11 +34,37 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${jakarta.variable} ${cinzel.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FAF6F0] text-[#2C1810] font-sans">
-        {children}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('dms_theme');
+                  var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var root = document.documentElement;
+                  if (isDark) {
+                    root.classList.add('dark');
+                    root.classList.remove('light');
+                  } else {
+                    root.classList.remove('dark');
+                    root.classList.add('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="h-full overflow-hidden flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans transition-colors duration-200">
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
 }
+

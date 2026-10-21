@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { MY_REQUESTS_MOCK, MyRequestItem } from '@/app/data/myRequestsData';
-import { useLanguage } from '@/app/context/LanguageContext';
+import type { MyRequestItem } from '@/types/request';
+import { useLanguage } from '@/context/LanguageContext';
+import { useMyRequests } from '@/hooks/useMyRequests';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ErrorBanner } from '@/components/common/ErrorBanner';
 import { RequestDetailModal } from './RequestDetailModal';
 import { RequestActionModal } from './RequestActionModal';
 import {
@@ -17,33 +20,44 @@ import {
   ClockIcon,
   CheckCircleIcon,
   ArrowPathIcon,
-} from '@/app/components/ui/Icons';
+} from '@/components/ui/Icons';
 
 export function MyRequestsView() {
   const { getLabel } = useLanguage();
+  const {
+    filteredData,
+    paginatedData,
+    isLoading,
+    error,
+    refetch,
+    dateFrom,
+    setDateFrom,
+    dateTo,
+    setDateTo,
+    selectedCategories,
+    setSelectedCategories,
+    toggleCategory,
+    selectedStatuses,
+    setSelectedStatuses,
+    toggleStatus,
+    searchQuery,
+    setSearchQuery,
+    allCategories,
+    allStatuses,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalEntries,
+    totalPages,
+    stats,
+  } = useMyRequests();
 
-  // Filters State
-  const [dateFrom, setDateFrom] = useState<string>('2025-03-10');
-  const [dateTo, setDateTo] = useState<string>('2026-10-14');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    'Bills',
-    'Information',
-    'Policy Update',
-  ]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
-    'Completed',
-    'Pending',
-    'Done',
-  ]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
-  // Dropdown open states
+  // Dropdown open states (UI-only, stay in component)
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
-  // Pagination & Modals State
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(8);
+  // Modals State (UI-only, stay in component)
   const [selectedRequest, setSelectedRequest] = useState<MyRequestItem | null>(null);
   const [modalMode, setModalMode] = useState<'overview' | 'timeline' | 'attachments'>('overview');
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -60,92 +74,8 @@ export function MyRequestsView() {
     }, 3500);
   };
 
-  const allCategories = ['Bills', 'Information', 'Policy Update', 'Circulars', 'Cabinet Papers'];
-  const allStatuses = ['Completed', 'Pending', 'Done'];
-
-  // Toggle Category
-  const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  };
-
-  // Toggle Status
-  const toggleStatus = (st: string) => {
-    setSelectedStatuses((prev) =>
-      prev.includes(st) ? prev.filter((s) => s !== st) : [...prev, st]
-    );
-  };
-
-  // Filtered Data
-  const filteredData = useMemo(() => {
-    return MY_REQUESTS_MOCK.filter((item) => {
-      // Date filter
-      const itemDate = item.created.replaceAll('/', '-');
-      if (dateFrom && itemDate < dateFrom) return false;
-      if (dateTo && itemDate > dateTo) return false;
-
-      // Category filter
-      if (
-        selectedCategories.length > 0 &&
-        !selectedCategories.includes(item.mainCategory)
-      ) {
-        return false;
-      }
-
-      // Status filter
-      if (
-        selectedStatuses.length > 0 &&
-        !selectedStatuses.includes(item.status)
-      ) {
-        return false;
-      }
-
-      // Search Query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesRef = item.reference.toLowerCase().includes(q);
-        const matchesTitle = item.title.toLowerCase().includes(q);
-        const matchesCategory = item.mainCategory.toLowerCase().includes(q);
-        const matchesAssignTo =
-          item.assignTo.designation.toLowerCase().includes(q) ||
-          item.assignTo.code.toLowerCase().includes(q) ||
-          item.assignTo.name.toLowerCase().includes(q);
-        const matchesAssignFrom =
-          item.assignFrom.designation.toLowerCase().includes(q) ||
-          item.assignFrom.code.toLowerCase().includes(q) ||
-          item.assignFrom.name.toLowerCase().includes(q);
-        const matchesStatus = item.turnaroundText.toLowerCase().includes(q);
-
-        return (
-          matchesRef ||
-          matchesTitle ||
-          matchesCategory ||
-          matchesAssignTo ||
-          matchesAssignFrom ||
-          matchesStatus
-        );
-      }
-
-      return true;
-    });
-  }, [dateFrom, dateTo, selectedCategories, selectedStatuses, searchQuery]);
-
-  // Pagination calculation
-  const totalEntries = filteredData.length;
-  const totalPages = Math.max(1, Math.ceil(totalEntries / pageSize));
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filteredData.slice(start, start + pageSize);
-  }, [filteredData, currentPage, pageSize]);
-
-  // Statistics
-  const totalCount = MY_REQUESTS_MOCK.length;
-  const completedCount = MY_REQUESTS_MOCK.filter(
-    (i) => i.status === 'Completed' || i.status === 'Done'
-  ).length;
-  const pendingCount = MY_REQUESTS_MOCK.filter((i) => i.status === 'Pending').length;
-  const overdueCount = MY_REQUESTS_MOCK.filter((i) => i.isOverdue).length;
+  // Statistics from hook
+  const { totalCount, completedCount, pendingCount, overdueCount } = stats;
 
   // Export Handlers
   const handleCopyTable = () => {
@@ -199,8 +129,13 @@ export function MyRequestsView() {
     <div className="space-y-6">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-slate-900 text-white border border-slate-700 shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-fade-in">
-          <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
+        <div
+          id="toast-notification"
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-slate-900 text-white border border-slate-700 shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-fade-in"
+        >
+          <CheckCircleIcon className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -225,7 +160,7 @@ export function MyRequestsView() {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/requests/new"
+            href="/request-management/submit-request"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--slt-primary)] hover:bg-[var(--slt-primary-hover)] text-white text-xs font-bold shadow-sm hover:shadow transition-all"
           >
             <PlusIcon className="w-4 h-4" />
@@ -451,6 +386,7 @@ export function MyRequestsView() {
           {/* View Tasks Action Button */}
           <div>
             <button
+              id="btn-view-tasks"
               type="button"
               onClick={() => {
                 setIsCategoryDropdownOpen(false);
